@@ -128,7 +128,14 @@ class UpdateHandler {
                 break;
 
             case null !== $update->getInlineQuery():
-                return $this->executeInlineQuery($tbp);
+
+                $isWork = $this->executeInlineQuery($tbp);
+
+                if (true === $isWork) return true;
+
+                $id = $update->getInlineQuery()->getFrom()->getId();
+
+                break;
 
             case null !== $update->getChosenInlineResult():
 
