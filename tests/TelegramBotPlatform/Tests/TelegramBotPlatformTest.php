@@ -150,7 +150,7 @@ class TelegramBotPlatformTest extends TestCase {
     /**
      * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
      */
-    public function testSetGetContext() {
+    public function testSetGetSession() {
 
         $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
 
@@ -167,11 +167,11 @@ class TelegramBotPlatformTest extends TestCase {
         $session = $tbp->getSession($tbp->getConfigManager()->getUpdate()->getMessage()->getChat()->getId());
 
         $this->assertNotNull($session);
-        $this->assertEquals('Cmd', $session['command']);
+        $this->assertEquals('Cmd', $session['class']);
         $this->assertEquals('execute', $session['method']);
     }
 
-    public function testDeleteContext() {
+    public function testDeleteSession() {
 
         $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
 

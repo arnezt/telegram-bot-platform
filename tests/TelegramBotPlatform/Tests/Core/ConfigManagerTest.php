@@ -112,18 +112,18 @@ class ConfigManagerTest extends TestCase {
 
 
     /**
-     * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
+     * @expectedException \TelegramBotPlatform\Exception\TelegramBotPlatformException
      */
-    public function testGetCacheEmpty() {
+    public function testGetStorageEmpty() {
 
         $config = $this->getConfig();
 
-        unset($config['adapter']);
+        unset($config['storage']);
 
         new ConfigManager($config, $this->getRequest());
     }
 
-    public function testGetCache() {
+    public function testGetStorage() {
 
         $cm = new ConfigManager($this->getConfig(), $this->getRequest());
 
