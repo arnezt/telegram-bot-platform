@@ -192,11 +192,11 @@ class UserCmd implements TelegramBotCommandInterface {
 }
 ```
 
-**To `TelegramBotPlatform` respond to the teams you need to register them!**
+**To *Telegram Bot Platform* respond to the teams you need to register them!**
 
 Example use:
 
-> Now you need to create a `TelegramBotPlatform` object and pass it certain data! <br />
+> Now you need to create a *Telegram Bot Platform* object and pass it certain data! <br />
 > And choose an adapter to store the session!
 
 ```php
