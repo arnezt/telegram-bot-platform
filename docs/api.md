@@ -16,7 +16,7 @@ Example use:
 
 ```php
 $tbp->setSession(array(
-    'id'      => 123456,                                       // Chat id or User id or Unique Id. (string|integer)
+    'id'      => 123456,                                       // Chat id or User id. (string|integer)
     'context' => array(
         'class'     => \MyBot\Commands\UserCmd::class,         // Any following class. (string)
         'method'    => 'thanks'                                // The method you need to run, it must necessarily take two parameters and the third is optional. (string)
@@ -26,7 +26,7 @@ $tbp->setSession(array(
 
 ### 3. deleteSession
 
-> This method has one parameter that is **Chat id** or **User id**. or *Unique Id* <br />
+> This method has one parameter that is **Chat id** or **User id** <br />
 > The method deletes the command session, return true if successful.
 
 ### 4. run
