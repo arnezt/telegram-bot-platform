@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="64" height="64" src="https://telegram.org/img/t_logo.png">
+  <img width="128" height="128" src="https://telegram.org/img/t_logo.png">
 </p>
 
 # Telegram Bot Shell
