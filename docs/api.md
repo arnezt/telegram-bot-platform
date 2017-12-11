@@ -10,7 +10,7 @@
 ### 2. setSession
 
 > This method has an array type. <br />
-> Set the following session, return true if successful.
+> Set the following context, return true if successful.
 
 Example use:
 
