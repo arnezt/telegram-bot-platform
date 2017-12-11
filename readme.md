@@ -34,10 +34,11 @@ $request = file_get_contents('php://input');                    // Request body.
 $tba = new \TelegramBotPlatform\TelegramBotPlatform(array(
     'token'    => '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',  // Your token bot.
     'storage'  => $adapter,                                     // This adapter for Scrapbook library to store user sessions. See the complete adapters: https://github.com/matthiasmullie/scrapbook#adapters
-    'payload'  => $db,                                          // This payload will be passed to command the third parameter. (optional)
-    'commands' => array(
-        'default'  => \MyBot\Commands\DefaultCmd::class,   // This command will work by default if no command is found. (optional)
-        'mappings' => array(                                    // This is the list of registered commands for the bot. (optional)
+    'payload'  => $db,                                          // This payload will be passed for third parameter to command. (optional)
+    'mappings' => array(
+        'default'       => \MyBot\Commands\DefaultCmd::class,   // This command will work by default if no command is found or user session. (optional)
+        'inline_query'  => \MyBot\Commands\DefaultCmd::class,   // This command will work with inline queries. (optional)
+        'commands'      => array(                               // This is the list of registered commands for the bot. (optional)
             'help' => \MyBot\Commands\HelpCmd::class,
             'user' => \MyBot\Commands\UserCmd::class
         )
