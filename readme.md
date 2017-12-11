@@ -9,7 +9,7 @@
 [![Travis CI](https://img.shields.io/travis/jungle-bay/telegram-bot-platform.svg?style=flat)](https://travis-ci.org/jungle-bay/telegram-bot-platform)
 [![Scrutinizer CI](https://img.shields.io/scrutinizer/g/jungle-bay/telegram-bot-platform.svg?style=flat)](https://scrutinizer-ci.com/g/jungle-bay/telegram-bot-platform)
 [![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-platform.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-platform)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/2a4f301b-b475-44c7-b568-3e5eae9c7c3f.svg?style=flat)](https://insight.sensiolabs.com/projects/2a4f301b-b475-44c7-b568-3e5eae9c7c3f)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/4b05f9bd-f0ff-4423-8d53-2e5817bbd648.svg?style=flat)](https://insight.sensiolabs.com/projects/4b05f9bd-f0ff-4423-8d53-2e5817bbd648)
 
 https://insight.sensiolabs.com/projects//big.png
 
