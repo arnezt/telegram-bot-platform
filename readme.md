@@ -11,11 +11,12 @@
 [![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-shell.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-shell)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/84f8c0b7-506d-4116-819c-f2080a79bf66.svg?style=flat)](https://insight.sensiolabs.com/projects/84f8c0b7-506d-4116-819c-f2080a79bf66)
 
-This is [Telegram Bot Platform](https://telegram.org/blog/bot-revolution), based on pure [Telegram Bot API](https://core.telegram.org/bots/api).
+This is PHP Library for [Telegram Bot Platform](https://telegram.org/blog/bot-revolution). <br />
+You can follow [this](https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/readme.md) documentation to work with the library.
 
 ### Install
 
-The recommended way to install is through [Composer](https://getcomposer.org):
+The recommended way to install is through [Composer](https://getcomposer.org/doc/00-intro.md#introduction):
 
 ```bash
 composer require jungle-bay/telegram-bot-shell
@@ -32,13 +33,13 @@ $request = file_get_contents('php://input');                    // Request body.
 
 $tba = new \TelegramBotPlatform\TelegramBotPlatform(array(
     'token'    => '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',  // Your token bot.
-    'storage'  => $adapter,                                     // This adapter for Scrapbook library. See the complete: https://github.com/matthiasmullie/scrapbook#adapters
+    'storage'  => $adapter,                                     // This adapter for Scrapbook library to store user sessions. See the complete adapter: https://github.com/matthiasmullie/scrapbook#adapters
     'payload'  => $db,                                          // This payload will be passed to command the third parameter. (optional)
     'commands' => array(
-        'default'  => \Acme\MyBot\Commands\DefaultCmd::class,   // This command will work by default if no command is found. (optional)
+        'default'  => \MyBot\Commands\DefaultCmd::class,   // This command will work by default if no command is found. (optional)
         'mappings' => array(                                    // This is the list of registered commands for the bot. (optional)
-            'help' => \Acme\MyBot\Commands\HelpCmd::class,
-            'user' => \Acme\MyBot\Commands\UserCmd::class
+            'help' => \MyBot\Commands\HelpCmd::class,
+            'user' => \MyBot\Commands\UserCmd::class
         )
     )
 ), $request);
