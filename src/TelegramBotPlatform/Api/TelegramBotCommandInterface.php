@@ -12,14 +12,15 @@ namespace TelegramBotPlatform\Api;
 
 
 use TelegramBotAPI\Types\Update;
-use TelegramBotPlatform\TelegramBotShell;
+use TelegramBotPlatform\TelegramBotPlatform;
 
 /**
+ * Interface TelegramBotCommandInterface
+ *
  * This interface must be implemented by all telegram commands
  * in order to have an entry point to command.
  *
- * Interface TelegramBotCommandInterface
- * @package TelegramBotShell\Api
+ * @package TelegramBotPlatform\Api
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 interface TelegramBotCommandInterface {
@@ -27,10 +28,10 @@ interface TelegramBotCommandInterface {
     /**
      * This method is started and is the entry point to the command.
      *
-     * @param TelegramBotShell $tbs
+     * @param TelegramBotPlatform $tbp
      * @param Update $update
      * @param mixed|null $payload
-     * @return bool
+     * @return bool Return true if successful.
      */
-    public function execute(TelegramBotShell $tbs, Update $update, $payload = null);
+    public function execute(TelegramBotPlatform $tbp, Update $update, $payload = null);
 }

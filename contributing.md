@@ -1,8 +1,8 @@
-# Contributing for Telegram Bot Shell
+# Contributing for Telegram Bot Platform
 
 Contributions are **welcome** and will be fully **credited**.
 
-We accept contributions via Pull Requests on [Github](https://github.com/jungle-bay/telegram-bot-api/pulls).
+We accept contributions via Pull Requests on [Github](https://github.com/jungle-bay/telegram-bot-platform/pulls).
 
 #### Pull Requests
 

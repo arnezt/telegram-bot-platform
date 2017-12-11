@@ -15,14 +15,14 @@
          verbose="false">
 
     <testsuites>
-        <testsuite name="Telegram Bot Shell Test Suite">
-            <directory>tests/TelegramBotShell/Tests/</directory>
+        <testsuite name="Telegram Bot Platform Test Suite">
+            <directory>tests/TelegramBotPlatform/Tests/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory suffix=".php">src/TelegramBotShell/</directory>
+            <directory suffix=".php">src/TelegramBotPlatform/</directory>
         </whitelist>
     </filter>
 

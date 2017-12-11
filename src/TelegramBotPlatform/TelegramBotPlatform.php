@@ -15,15 +15,16 @@ use TelegramBotAPI\TelegramBotAPI;
 use TelegramBotPlatform\Core\ConfigManager;
 use TelegramBotPlatform\Core\UpdateHandler;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
-use TelegramBotPlatform\Exception\TelegramBotShellException;
+use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 
 /**
- * @package TelegramBotShell
+ * Class TelegramBotPlatform
+ * @package TelegramBotPlatform
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class TelegramBotShell {
+class TelegramBotPlatform {
 
-    const CACHE_PREFIX = 'TELEGRAM_SESSION_';
+    const TELEGRAM_SESSION_PREFIX = 'TELEGRAM_SESSION_';
 
 
     /**
@@ -74,34 +75,53 @@ class TelegramBotShell {
         return $this->getConfigManager()->getTelegramBotAPI();
     }
 
-
     /**
      * @api
-     * @link https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/api.md#2-setcontext
-     * @param array $context
+     * @link https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/api.md#2-setsession
+     * @param array $session
+     * @return bool
+     * @throws TelegramBotPlatformException
      */
-    public function setContext(array $context) {
+    public function setSession(array $session) {
 
-        $key = self::CACHE_PREFIX . $context['id'];
+        switch (true) {
 
-        $this->getConfigManager()->getCache()->set($key, $context['context'], 86400);
+            case true === empty($session['id']):
+                throw new TelegramBotPlatformException('id is a required field.');
+
+            case true === empty($session['context']):
+                throw new TelegramBotPlatformException('context is a required field.');
+
+            case true === empty($session['context']['class']):
+                throw new TelegramBotPlatformException('context.class is a required field.');
+
+            case true === empty($session['context']['method']):
+                throw new TelegramBotPlatformException('context.method is a required field.');
+
+            default:
+
+                $key = self::TELEGRAM_SESSION_PREFIX . $session['id'];
+
+                return $this->getConfigManager()->getStorage()->set($key, $session['context'], 86400);
+        }
     }
 
     /**
-     * @param string $id
+     * @param string|int $id
      * @return array|null
      */
-    public function getContext($id) {
-        return $this->getConfigManager()->getCache()->get(self::CACHE_PREFIX . $id);
+    public function getSession($id) {
+        return $this->getConfigManager()->getStorage()->get(self::TELEGRAM_SESSION_PREFIX . $id);
     }
 
     /**
      * @api
-     * @link https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/api.md#3-deletecontext
-     * @param string $id
+     * @link https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/api.md#3-deletesession
+     * @param string|int $id
+     * @return bool
      */
-    public function deleteContext($id) {
-        $this->getConfigManager()->getCache()->delete(self::CACHE_PREFIX . $id);
+    public function deleteSession($id) {
+        return $this->getConfigManager()->getStorage()->delete(self::TELEGRAM_SESSION_PREFIX . $id);
     }
 
 
@@ -109,7 +129,7 @@ class TelegramBotShell {
      * @api
      * @link https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/api.md#4-run
      * @throws TelegramBotAPIException
-     * @throws TelegramBotShellException
+     * @throws TelegramBotPlatformException
      */
     public function run() {
         $this->getUpdateHandler()->runParser($this);

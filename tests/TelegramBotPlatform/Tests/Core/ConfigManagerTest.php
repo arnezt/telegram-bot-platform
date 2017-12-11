@@ -21,7 +21,7 @@ use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 
 /**
  * Class ConfigManagerTest
- * @package TelegramBotShell\Tests\Core
+ * @package TelegramBotPlatform\Tests\Core
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class ConfigManagerTest extends TestCase {
@@ -40,11 +40,12 @@ class ConfigManagerTest extends TestCase {
 
         return array(
             'token'    => '479218867:AAGjGTwl0F-prMPIC6-AkNuLD1Bb2tRsYbc',
-            'adapter'  => $adapter,
+            'storage'  => $adapter,
             'payload'  => null,
-            'commands' => array(
-                'default'  => get_class($mockCmd),
-                'mappings' => array(
+            'mappings' => array(
+                'default'      => get_class($mockCmd),
+                'inline_query' => get_class($mockCmd),
+                'commands'     => array(
                     'help' => get_class($mockCmd),
                     'user' => get_class($mockCmd)
                 )
@@ -126,8 +127,8 @@ class ConfigManagerTest extends TestCase {
 
         $cm = new ConfigManager($this->getConfig(), $this->getRequest());
 
-        $this->assertNotNull($cm->getCache());
-        $this->assertInstanceOf(SimpleCache::class, $cm->getCache());
+        $this->assertNotNull($cm->getStorage());
+        $this->assertInstanceOf(SimpleCache::class, $cm->getStorage());
     }
 
 
@@ -135,7 +136,7 @@ class ConfigManagerTest extends TestCase {
 
         $config = $this->getConfig();
 
-        unset($config['commands']['default']);
+        unset($config['mappings']['default']);
 
         $cm = new ConfigManager($config, $this->getRequest());
 
@@ -160,7 +161,7 @@ class ConfigManagerTest extends TestCase {
 
         $config = $this->getConfig();
 
-        unset($config['commands']);
+        unset($config['mappings']);
 
         $cm = new ConfigManager($config, $this->getRequest());
 

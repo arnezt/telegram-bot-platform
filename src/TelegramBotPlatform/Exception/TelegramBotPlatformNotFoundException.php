@@ -14,9 +14,9 @@ namespace TelegramBotPlatform\Exception;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 
 /**
- * Class TelegramBotShellContextNotFoundException
- * @package TelegramBotShell\Exception
+ * Class TelegramBotPlatformNotFoundException
+ * @package TelegramBotPlatform\Exception
  */
-class TelegramBotShellContextNotFoundException extends TelegramBotAPIRuntimeException {
+class TelegramBotPlatformNotFoundException extends TelegramBotAPIRuntimeException {
 
 }

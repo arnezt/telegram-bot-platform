@@ -1,33 +1,33 @@
-# Guide for Telegram Bot Shell
+# Guide for Telegram Bot Platform
 
 **To begin with, we will implement a couple of commands.** <br />
 
-The command needs to implement the ```TelegramBotCommandInterface```, what to signal about correct operation it is necessary to return ```true```.
+The command needs to implement the `TelegramBotCommandInterface`, what to signal about correct operation it is necessary to return `true`.
 
 Example default command:
 
-> This command will work when TelegramBotShell will not find a command or context.
+> This command will work when TelegramBotPlatform will not find a command or context.
 
 ```php
 <?php
 
-namespace Acme\MyBot\Commands;
+namespace MyBot\Commands;
 
 
 use TelegramBotAPI\Types\Update;
-use TelegramBotShell\TelegramBotShell;
-use TelegramBotShell\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\TelegramBotPlatform;
+use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 
 class DefaultCmd implements TelegramBotCommandInterface {
 
     /**
      * {@inheritdoc}
      */
-    public function execute(TelegramBotShell $tbs, Update $update, $payload = null) {
+    public function execute(TelegramBotPlatform $tbp, Update $update, $payload = null) {
         
         if (null === $update->getMessage()) return false;
         
-        $tbs->getTelegramBotAPI()->sendMessage(array(
+        $tbp->getTelegramBotAPI()->sendMessage(array(
             'chat_id' => $update->getMessage()->getChat()->getId(),
             'text'    => 'Something I can not understand you: ('
         ));
@@ -39,18 +39,18 @@ class DefaultCmd implements TelegramBotCommandInterface {
 
 Example help command:
 
-> This command will fire when the user uses the ```/help``` command.
+> This command will fire when the user uses the `/help` command.
 
 ```php
 <?php
 
-namespace Acme\MyBot\Commands;
+namespace MyBot\Commands;
 
 
 use TelegramBotAPI\Constants;
 use TelegramBotAPI\Types\Update;
-use TelegramBotShell\TelegramBotShell;
-use TelegramBotShell\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\TelegramBotPlatform;
+use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 
 class HelpCmd implements TelegramBotCommandInterface {
 
@@ -64,27 +64,25 @@ class HelpCmd implements TelegramBotCommandInterface {
     /**
      * {@inheritdoc}
      */
-    public function execute(TelegramBotShell $tbs, Update $update, $payload = null) {
+    public function execute(TelegramBotPlatform $tbp, Update $update, $payload = null) {
 
-        $commands = $tbs->getConfigManager()->getCommands();
+        $commands = $tbp->getConfigManager()->getCommands();
         $message = '';
 
-        foreach ($commands as $tag => $command) {
+        foreach ($commands as $tag => $class) {
 
-            $cmd = new $command();
+            $command = new $class();
 
             $about = '';
 
-            if (true === method_exists($cmd, 'aboutExecute')) $about = $cmd->aboutExecute();
+            if (true === method_exists($command, 'aboutExecute')) $about = $command->aboutExecute();
             
             if ('' === $about) continue;
             
             $message .= '/' . $tag . ' - ' . $about . "\n";
         }
 
-        $tba = $tbs->getTelegramBotAPI();
-
-        $tba->sendMessage(array(
+        $tbp->getTelegramBotAPI()->sendMessage(array(
             'chat_id'    => $update->getMessage()->getChat()->getId(),
             'text'       => $message,
             'parse_mode' => Constants::MARKDOWN_PARSE_MODE
@@ -97,19 +95,19 @@ class HelpCmd implements TelegramBotCommandInterface {
 
 Example user command:
 
-> This command will fire when the user uses the ```/user``` command. <br />
+> This command will fire when the user uses the `/user` command. <br />
 > And it will work two more times in context.
 
 ```php
 <?php
 
-namespace Acme\MyBot\Commands;
+namespace MyBot\Commands;
 
 
 use TelegramBotAPI\Types\Update;
-use TelegramBotShell\TelegramBotShell;
+use TelegramBotPlatform\TelegramBotPlatform;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
-use TelegramBotShell\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 
 class UserCmd implements TelegramBotCommandInterface {
 
@@ -121,50 +119,50 @@ class UserCmd implements TelegramBotCommandInterface {
     }
 
     /**
-     * @param TelegramBotShell $tbs
+     * @param TelegramBotPlatform $tbp
      * @param Update $update
-     * @throws TelegramBotAPIException
      * @return bool  
+     * @throws TelegramBotAPIException
      */
-    public function thanks(TelegramBotShell $tbs, Update $update) {
+    public function thanks(TelegramBotPlatform $tbp, Update $update) {
 
         if (null === $update->getMessage()) return false;
 
         $user = $update->getMessage()->getFrom();
 
-        $message = $tbs->getTelegramBotAPI()->sendMessage(array(
+        $message = $tbp->getTelegramBotAPI()->sendMessage(array(
             'chat_id' => $update->getMessage()->getChat()->getId(),
             'text'    => 'Before meeting ' . $user->getFirstName() . ' ' . $user->getLastName() . ' !!!'
         ));
 
-        $tbs->deleteContext($message->getChat()->getId());
+        $tbp->deleteSession($message->getChat()->getId());
         
         return true;
     }
 
     /**
-     * @param TelegramBotShell $tbs
+     * @param TelegramBotPlatform $tbp
      * @param Update $update
      * @param mixed $payload
-     * @throws TelegramBotAPIException
      * @return bool 
+     * @throws TelegramBotAPIException
      */
-    public function followingAnswer(TelegramBotShell $tbs, Update $update, $payload) {
+    public function followingAnswer(TelegramBotPlatform $tbp, Update $update, $payload) {
 
         if (null === $update->getMessage()) return false;
 
         $pdo = $payload;
 
-        $message = $tbs->getTelegramBotAPI()->sendMessage(array(
+        $message = $tbp->getTelegramBotAPI()->sendMessage(array(
             'chat_id' => $update->getMessage()->getChat()->getId(),
             'text'    => 'This is ' . $update->getMessage()->getText() . ' not so bad;)'
         ));
 
-        $tbs->setContext(array(
+        $tbp->setSession(array(
             'id'      => $message->getChat()->getId(),
             'context' => array(
-                'command'   => self::class,
-                'method'    => 'thanks'
+                'class'   => self::class,
+                'method'  => 'thanks'
             )
         ));
         
@@ -174,18 +172,18 @@ class UserCmd implements TelegramBotCommandInterface {
     /**
      * {@inheritdoc}
      */
-    public function execute(TelegramBotShell $tbs, Update $update, $payload = null) {
+    public function execute(TelegramBotPlatform $tbp, Update $update, $payload = null) {
 
-        $message = $tbs->getTelegramBotAPI()->sendMessage(array(
+        $message = $tbp->getTelegramBotAPI()->sendMessage(array(
             'chat_id' => $update->getMessage()->getChat()->getId(),
             'text'    => 'Hello how are you?'
         ));
 
-        $tbs->setContext(array(
+        $tbp->setSession(array(
             'id'      => $message->getChat()->getId(),
             'context' => array(
-                'command'   => self::class,
-                'method'    => 'followingAnswer'
+                'class'   => self::class,
+                'method'  => 'followingAnswer'
             )
         ));
         
@@ -194,19 +192,17 @@ class UserCmd implements TelegramBotCommandInterface {
 }
 ```
 
-**To TelegramBotShell respond to the teams you need to register them!**
+**To TelegramBotPlatform respond to the teams you need to register them!**
 
 Example use:
 
-> Now you need to create a TelegramBotShell object and pass it certain data! <br />
+> Now you need to create a TelegramBotPlatform object and pass it certain data! <br />
 > And choose an adapter to store the context!
 
 ```php
 <?php
 
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$request = file_get_contents('php://input');
+require_once __DIR__ . '/vendor/autoload.php';
 
 $pdo = new \PDO("mysql:host={$host};port={$port};dbname={$dbname}", $user, $password);
 
@@ -215,20 +211,23 @@ $pdo = new \PDO("mysql:host={$host};port={$port};dbname={$dbname}", $user, $pass
 // ***
 $adapter = new \MatthiasMullie\Scrapbook\Adapters\MySQL($pdo);
 
-$tba = new \TelegramBotShell\TelegramBotShell(array(
-    'token'    => '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',  // Your token bot.
-    'adapter'  => $adapter,                                     // This adapter for Scrapbook library. See the complete: https://github.com/matthiasmullie/scrapbook#adapters
-    'payload'  => $pdo,                                         // This payload will be passed to command the third parameter. (optional)
-    'commands' => array(
-        'default'  => \Acme\MyBot\Commands\DefaultCmd::class,   // This command will work by default if no command is found. (optional)
-        'mappings' => array(                                    // This is the list of registered commands for the bot. (optional)
-            'help' => \Acme\MyBot\Commands\HelpCmd::class,
-            'user' => \Acme\MyBot\Commands\UserCmd::class
+$request = file_get_contents('php://input');
+
+$tbp = new \TelegramBotPlatform\TelegramBotPlatform(array(
+    'token'    => '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',              // Your token bot.
+    'storage'  => $adapter,                                                 // This adapter for Scrapbook library to store user sessions. See the complete adapters: https://github.com/matthiasmullie/scrapbook#adapters
+    'payload'  => $pdo,                                                     // This payload will be passed for third parameter to command. (optional)
+    'mappings' => array(
+        'default'       => \MyBot\Commands\DefaultCmd::class,               // This command will work by default if no command is found or user session. (optional)
+        'inline_query'  => \MyBot\Commands\FeedbackInlineQueryCmd::class,   // This command will work with inline queries. (optional)
+        'commands'      => array(                                           // This is the list of registered commands for the bot. (optional)
+            'help' => \MyBot\Commands\HelpCmd::class,
+            'user' => \MyBot\Commands\UserCmd::class
         )
     )
 ), $request);
 
-$tbs->run();
+$tbp->run();
 ```
 
 **Happy coding and cool bots!**

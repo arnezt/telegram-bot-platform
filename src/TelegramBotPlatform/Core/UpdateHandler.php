@@ -11,15 +11,15 @@
 namespace TelegramBotPlatform\Core;
 
 
-use TelegramBotPlatform\TelegramBotShell;
-use TelegramBotPlatform\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\TelegramBotPlatform;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
-use TelegramBotPlatform\Exception\TelegramBotShellException;
-use TelegramBotPlatform\Exception\TelegramBotShellContextNotFoundException;
+use TelegramBotPlatform\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\Exception\TelegramBotPlatformException;
+use TelegramBotPlatform\Exception\TelegramBotPlatformNotFoundException;
 
 /**
  * Class UpdateHandler
- * @package TelegramBotShell\Core
+ * @package TelegramBotPlatform\Core
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class UpdateHandler {
@@ -35,41 +35,69 @@ class UpdateHandler {
 
     /**
      * @param mixed $command
-     * @throws TelegramBotShellException
+     * @throws TelegramBotPlatformException
      */
     private function firewallCommand($command) {
 
         if ($command instanceof TelegramBotCommandInterface) return;
 
-        throw new TelegramBotShellException('This ' . get_class($command) . ' not a command of Telegram Bot.');
+        throw new TelegramBotPlatformException('This ' . get_class($command) . ' not a command of Telegram Bot.');
     }
 
 
     /**
-     * @param TelegramBotShell $tbs
+     * @param TelegramBotPlatform $tbp
+     * @param mixed $command
+     * @param string $method
      * @return bool
-     * @throws TelegramBotShellException
+     * @throws TelegramBotPlatformException
      */
-    private function executeCommandDefault(TelegramBotShell $tbs) {
+    private function execute(TelegramBotPlatform $tbp, $command, $method) {
+
+        $command = new $command();
+
+        $this->firewallCommand($command);
+
+        /** @var TelegramBotCommandInterface $command */
+        return $command->{$method}($tbp, $this->getConfigManager()->getUpdate(), $this->getConfigManager()->getPayload());
+    }
+
+
+    /**
+     * @param TelegramBotPlatform $tbp
+     * @return bool
+     * @throws TelegramBotPlatformException
+     */
+    private function executeDefault(TelegramBotPlatform $tbp) {
 
         $defaultCommand = $this->getConfigManager()->getDefaultCommand();
 
         if (null === $defaultCommand) return false;
 
-        $command = new $defaultCommand();
-
-        $this->firewallCommand($command);
-
-        /** @var TelegramBotCommandInterface $command */
-        return $command->execute($tbs, $this->getConfigManager()->getUpdate(), $this->getConfigManager()->getPayload());
+        return $this->execute($tbp, $defaultCommand, 'execute');
     }
 
     /**
-     * @param TelegramBotShell $tbs
+     * @param TelegramBotPlatform $tbp
      * @return bool
-     * @throws TelegramBotShellContextNotFoundException
+     * @throws TelegramBotPlatformException
      */
-    private function executeContext(TelegramBotShell $tbs) {
+    private function executeInlineQuery(TelegramBotPlatform $tbp) {
+
+        $inlineQueryCommand = $this->getConfigManager()->getInlineQueryCommand();
+
+        if (null === $inlineQueryCommand) return false;
+
+        return $this->execute($tbp, $inlineQueryCommand, 'execute');
+    }
+
+    /**
+     * @param TelegramBotPlatform $tbp
+     * @return bool
+     * @throws TelegramBotPlatformNotFoundException
+     * @throws TelegramBotPlatformException
+     */
+    private function executeSession(TelegramBotPlatform $tbp) {
 
         $update = $this->getConfigManager()->getUpdate();
 
@@ -100,10 +128,7 @@ class UpdateHandler {
                 break;
 
             case null !== $update->getInlineQuery():
-
-                $id = $update->getInlineQuery()->getFrom()->getId();
-
-                break;
+                return $this->executeInlineQuery($tbp);
 
             case null !== $update->getChosenInlineResult():
 
@@ -133,33 +158,33 @@ class UpdateHandler {
                 return false;
         }
 
-        $context = $tbs->getContext($id);
+        $session = $tbp->getSession($id);
 
-        if (null === $context) return false;
+        if (null === $session) return false;
 
-        $classCommand = $context['command'];
+        $class = $session['class'];
 
-        if (false === class_exists($classCommand)) {
-            throw new TelegramBotShellContextNotFoundException('There is no such class: ' . $classCommand);
+        if (false === class_exists($class)) {
+            throw new TelegramBotPlatformNotFoundException('There is no such class: ' . $class);
         }
 
-        $method = $context['method'];
+        $method = $session['method'];
 
-        if (false === method_exists($classCommand, $method)) {
-            throw new TelegramBotShellContextNotFoundException('There is no method: ' . $method . ' to ' . $classCommand);
+        if (false === method_exists($class, $method)) {
+            throw new TelegramBotPlatformNotFoundException('There is no method: ' . $method . ' to ' . $class);
         }
 
-        $command = new $classCommand();
+        $class = new $class();
 
-        return $command->{$method}($tbs, $update, $this->getConfigManager()->getPayload());
+        return $class->{$method}($tbp, $update, $this->getConfigManager()->getPayload());
     }
 
     /**
-     * @param TelegramBotShell $tbs
+     * @param TelegramBotPlatform $tbp
      * @return bool
      * @throws TelegramBotAPIException
      */
-    private function executeCommand(TelegramBotShell $tbs) {
+    private function executeCommand(TelegramBotPlatform $tbp) {
 
         $message = $this->getConfigManager()->getUpdate()->getMessage();
 
@@ -179,14 +204,9 @@ class UpdateHandler {
 
             if (false === array_key_exists($cmd, $commands)) return false;
 
-            $classCommand = $commands[$cmd];
+            $commandClass = $commands[$cmd];
 
-            $command = new $classCommand();
-
-            $this->firewallCommand($command);
-
-            /** @var TelegramBotCommandInterface $command */
-            return $command->execute($tbs, $this->getConfigManager()->getUpdate(), $this->getConfigManager()->getPayload());
+            return $this->execute($tbp, $commandClass, 'execute');
         }
 
         return false;
@@ -209,19 +229,19 @@ class UpdateHandler {
 
 
     /**
-     * @param TelegramBotShell $tbs
+     * @param TelegramBotPlatform $tbp
      * @throws TelegramBotAPIException
-     * @throws TelegramBotShellException
+     * @throws TelegramBotPlatformException
      */
-    public function runParser(TelegramBotShell $tbs) {
+    public function runParser(TelegramBotPlatform $tbp) {
 
-        if (true === $this->executeCommand($tbs)) return;
+        if (true === $this->executeCommand($tbp)) return;
 
-        elseif (true === $this->executeContext($tbs)) return;
+        elseif (true === $this->executeSession($tbp)) return;
 
-        elseif (true === $this->executeCommandDefault($tbs)) return;
+        elseif (true === $this->executeDefault($tbp)) return;
 
-        else throw new TelegramBotShellException('Something went wrong...');
+        else throw new TelegramBotPlatformException('Something went wrong...');
     }
 
 

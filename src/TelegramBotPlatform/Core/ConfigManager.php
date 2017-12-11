@@ -17,11 +17,11 @@ use MatthiasMullie\Scrapbook\KeyValueStore;
 use MatthiasMullie\Scrapbook\Psr16\SimpleCache;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
-use TelegramBotPlatform\Exception\TelegramBotShellException;
+use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 
 /**
  * Class ConfigManager
- * @package TelegramBotShell\Core
+ * @package TelegramBotPlatform\Core
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
 class ConfigManager {
@@ -32,14 +32,19 @@ class ConfigManager {
     private $tba;
 
     /**
-     * @var SimpleCache $cache
+     * @var SimpleCache $storage
      */
-    private $cache;
+    private $storage;
 
     /**
-     * @var string|null $defaultCommand
+     * @var null|string $defaultCommand
      */
     private $defaultCommand;
+
+    /**
+     * @var null|string $inlineQueryCommand
+     */
+    private $inlineQueryCommand;
 
     /**
      * @var array $commands
@@ -63,26 +68,28 @@ class ConfigManager {
      */
     private function initTelegramBotAPI(array $config) {
 
-        if (true === empty($config['token'])) throw new TelegramBotAPIException('Token empty.');
+        if (true === empty($config['token'])) {
+            throw new TelegramBotAPIException('Token is a required field.');
+        }
 
         $this->tba = new TelegramBotAPI($config['token']);
     }
 
     /**
      * @param array $config
-     * @throws TelegramBotShellException
+     * @throws TelegramBotPlatformException
      */
-    private function initCache(array $config) {
+    private function initStorage(array $config) {
 
-        if (true === empty($config['adapter'])) {
-            throw new TelegramBotShellException('Adapter is a required field.');
+        if (true === empty($config['storage'])) {
+            throw new TelegramBotPlatformException('Storage is a required field.');
         }
 
-        if (false === ($config['adapter'] instanceof KeyValueStore)) {
-            throw new TelegramBotShellException('Adapter must be an implements ' . KeyValueStore::class);
+        if (false === ($config['storage'] instanceof KeyValueStore)) {
+            throw new TelegramBotPlatformException('Storage must be an implements ' . KeyValueStore::class);
         }
 
-        $this->cache = new SimpleCache($config['adapter']);
+        $this->storage = new SimpleCache($config['storage']);
     }
 
     /**
@@ -95,19 +102,28 @@ class ConfigManager {
     /**
      * @param array $config
      */
+    private function initInlineQueryCommand(array $config) {
+        $this->inlineQueryCommand = (true === empty($config['inline_query'])) ? null : $config['inline_query'];
+    }
+
+    /**
+     * @param array $config
+     */
     private function initCommands(array $config) {
 
-        if (true === empty($config['commands'])) {
+        if (true === empty($config['mappings'])) {
 
             $this->defaultCommand = null;
+            $this->inlineQueryCommand = null;
             $this->commands = array();
 
             return;
         }
 
-        $this->initDefaultCommand($config['commands']);
+        $this->initDefaultCommand($config['mappings']);
+        $this->initInlineQueryCommand($config['mappings']);
 
-        $this->commands = (true === empty($config['commands']['mappings'])) ? array() : $config['commands']['mappings'];
+        $this->commands = (true === empty($config['mappings']['commands'])) ? array() : $config['mappings']['commands'];
     }
 
     /**
@@ -137,15 +153,22 @@ class ConfigManager {
     /**
      * @return SimpleCache
      */
-    public function getCache() {
-        return $this->cache;
+    public function getStorage() {
+        return $this->storage;
     }
 
     /**
-     * @return string|null
+     * @return null|string
      */
     public function getDefaultCommand() {
         return $this->defaultCommand;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getInlineQueryCommand() {
+        return $this->inlineQueryCommand;
     }
 
     /**
@@ -179,7 +202,7 @@ class ConfigManager {
     public function __construct(array $config, $request) {
 
         $this->initTelegramBotAPI($config);
-        $this->initCache($config);
+        $this->initStorage($config);
         $this->initCommands($config);
         $this->initPayload($config);
         $this->initUpdate($request);

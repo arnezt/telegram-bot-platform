@@ -1,14 +1,15 @@
 {
-    "name": "jungle-bay/telegram-bot-shell",
-    "description": "This is mechanism for processing bot commands",
+    "name": "jungle-bay/telegram-bot-platform",
+    "description": "PHP Library for Telegram Bot Platform",
     "type": "library",
     "keywords": [
         "php",
+        "php-library",
         "telegram",
         "telegram-bot",
         "telegram-bot-platform"
     ],
-    "homepage": "https://github.com/jungle-bay/telegram-bot-shell",
+    "homepage": "https://github.com/jungle-bay/telegram-bot-platform",
     "license": "MIT",
     "authors": [
         {
@@ -18,7 +19,7 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/jungle-bay/telegram-bot-shell/issues/"
+        "issues": "https://github.com/jungle-bay/telegram-bot-platform/issues/"
     },
     "require": {
         "php": ">=5.5.0",

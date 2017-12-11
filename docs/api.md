@@ -1,4 +1,4 @@
-# API for Telegram Bot Shell
+# API for Telegram Bot Platform
 
 **Application Programming Interface very simple, it consists of four methods!**
 
@@ -7,27 +7,27 @@
 > This method has no parameters. <br />
 > It return object of type [Telegram Bot API](https://github.com/jungle-bay/telegram-bot-api).
 
-### 2. setContext
+### 2. setSession
 
 > This method has an array type. <br />
-> Set the following context.
+> Set the following session, return true if successful.
 
 Example use:
 
 ```php
-$tbs->setContext(array(
-    'id'      => 123456,                                       // Chat id or User id or Unique Id. (integer|string)
+$tbp->setSession(array(
+    'id'      => 123456,                                       // Chat id or User id or Unique Id. (string|integer)
     'context' => array(
-        'command'   => \Acme\MyBot\Commands\UserCmd::class,    // Class the following commands.    (string)
+        'class'     => \MyBot\Commands\UserCmd::class,         // Class the following commands.    (string)
         'method'    => 'thanks'                                // The method you need to run.      (string)
     )
 ));
 ```
 
-### 3. deleteContext
+### 3. deleteSession
 
-> This method has one parameter that is **Chat id** or **User id**. <br />
-> The method deletes the command context.
+> This method has one parameter that is **Chat id** or **User id**. or *Unique Id* <br />
+> The method deletes the command context, return true if successful.
 
 ### 4. run
 

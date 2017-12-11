@@ -12,7 +12,7 @@
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/84f8c0b7-506d-4116-819c-f2080a79bf66.svg?style=flat)](https://insight.sensiolabs.com/projects/84f8c0b7-506d-4116-819c-f2080a79bf66)
 
 This is PHP Library for [Telegram Bot Platform](https://telegram.org/blog/bot-revolution). <br />
-You can follow [this](https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/readme.md) documentation to work with the library.
+You can follow [this](https://github.com/jungle-bay/telegram-bot-platform/blob/master/docs/readme.md) documentation to work with the library.
 
 ### Install
 
@@ -34,7 +34,7 @@ $request = file_get_contents('php://input');                                // R
 $tbp = new \TelegramBotPlatform\TelegramBotPlatform(array(
     'token'    => '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',              // Your token bot.
     'storage'  => $adapter,                                                 // This adapter for Scrapbook library to store user sessions. See the complete adapters: https://github.com/matthiasmullie/scrapbook#adapters
-    'payload'  => $db,                                                      // This payload will be passed for third parameter to command. (optional)
+    'payload'  => null,                                                     // This payload will be passed for third parameter to command. (optional)
     'mappings' => array(
         'default'       => \MyBot\Commands\DefaultCmd::class,               // This command will work by default if no command is found or user session. (optional)
         'inline_query'  => \MyBot\Commands\FeedbackInlineQueryCmd::class,   // This command will work with inline queries. (optional)
@@ -50,7 +50,7 @@ $tbp->run();
 
 ### Docs
 
-See the complete docs in [here](https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/readme.md).
+See the complete docs in [here](https://github.com/jungle-bay/telegram-bot-platform/blob/master/docs/readme.md).
 
 ### Note
 
@@ -58,4 +58,4 @@ For the convenience of development, you can use [Telegram Bot CLI](https://githu
 
 ### License
 
-This bundle is under the [MIT license](http://opensource.org/licenses/MIT). See the complete license in the file: [here](https://github.com/jungle-bay/telegram-bot-shell/blob/master/license.txt).
+This bundle is under the [MIT license](http://opensource.org/licenses/MIT). See the complete license in the file: [here](https://github.com/jungle-bay/telegram-bot-platform/blob/master/license.txt).

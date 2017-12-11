@@ -14,9 +14,9 @@ namespace TelegramBotPlatform\Exception;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
- * Class TelegramBotShellException
- * @package TelegramBotShell\Exception
+ * Class TelegramBotPlatformException
+ * @package TelegramBotPlatform\Exception
  */
-class TelegramBotShellException extends TelegramBotAPIException {
+class TelegramBotPlatformException extends TelegramBotAPIException {
 
 }
