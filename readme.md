@@ -1,8 +1,8 @@
-<a href="https://telegram.org/blog/bot-revolution" target="_blank">
-    <p align="center">
+<p align="center">
+    <a href="https://telegram.org/blog/bot-revolution">
         <img width="128" height="128" src="logo.png" alt="Telegram Bot Platform Logo">
-    </p>
-</a>
+    </a>
+</p>
 
 # Telegram Bot Platform
 
