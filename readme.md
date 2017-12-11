@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://telegram.org/blog/bot-revolution">
+    <a href="https://github.com/jungle-bay/telegram-bot-platform">
         <img width="128" height="128" src="logo.png" alt="Telegram Bot Platform Logo">
     </a>
 </p>
