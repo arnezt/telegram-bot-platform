@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="128" height="128" src="https://github.com/jungle-bay/telegram-bot-platform/blob/master/logo.pnd">
+  <img width="128" height="128" src="logo.png">
 </p>
 
 # Telegram Bot Platform
