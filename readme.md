@@ -11,8 +11,7 @@
 [![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-shell.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-shell)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/84f8c0b7-506d-4116-819c-f2080a79bf66.svg?style=flat)](https://insight.sensiolabs.com/projects/84f8c0b7-506d-4116-819c-f2080a79bf66)
 
-This is platform for the telegram bot, based on pure [Telegram Bot API](https://github.com/jungle-bay/telegram-bot-api). <br />
-Why [Shell](https://en.wikipedia.org/wiki/Unix_shell), I was inspired by the [command interpreter](https://en.wikipedia.org/wiki/Shell_(computing)) used in the [operating systems](https://en.wikipedia.org/wiki/Operating_system) of the [*nix](https://en.wikipedia.org/wiki/Unix-like) family.
+This is [Telegram Bot Platform](https://telegram.org/blog/bot-revolution), based on pure [Telegram Bot API](https://core.telegram.org/bots/api).
 
 ### Install
 
@@ -31,9 +30,9 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $request = file_get_contents('php://input');                    // Request body. (JSON-serialized Update object)
 
-$tba = new \TelegramBotShell\TelegramBotShell(array(
+$tba = new \TelegramBotPlatform\TelegramBotPlatform(array(
     'token'    => '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',  // Your token bot.
-    'adapter'  => $adapter,                                     // This adapter for Scrapbook library. See the complete: https://github.com/matthiasmullie/scrapbook#adapters
+    'storage'  => $adapter,                                     // This adapter for Scrapbook library. See the complete: https://github.com/matthiasmullie/scrapbook#adapters
     'payload'  => $db,                                          // This payload will be passed to command the third parameter. (optional)
     'commands' => array(
         'default'  => \Acme\MyBot\Commands\DefaultCmd::class,   // This command will work by default if no command is found. (optional)
