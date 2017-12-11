@@ -18,8 +18,8 @@ Example use:
 $tbp->setSession(array(
     'id'      => 123456,                                       // Chat id or User id or Unique Id. (string|integer)
     'context' => array(
-        'class'     => \MyBot\Commands\UserCmd::class,         // Class the following commands.    (string)
-        'method'    => 'thanks'                                // The method you need to run.      (string)
+        'class'     => \MyBot\Commands\UserCmd::class,         // Any following class. (string)
+        'method'    => 'thanks'                                // The method you need to run, it must necessarily take two parameters and the third is optional. (string)
     )
 ));
 ```
@@ -27,7 +27,7 @@ $tbp->setSession(array(
 ### 3. deleteSession
 
 > This method has one parameter that is **Chat id** or **User id**. or *Unique Id* <br />
-> The method deletes the command context, return true if successful.
+> The method deletes the command session, return true if successful.
 
 ### 4. run
 
