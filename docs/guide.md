@@ -6,7 +6,7 @@ The command needs to implement the `TelegramBotCommandInterface`, what to signal
 
 Example default command:
 
-> This command will work when `TelegramBotPlatform` will not find a command or context.
+> This command will work when **Telegram Bot Platform** will not find a command or session.
 
 ```php
 <?php
