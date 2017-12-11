@@ -9,7 +9,6 @@
 [![Travis CI](https://img.shields.io/travis/jungle-bay/telegram-bot-platform.svg?style=flat)](https://travis-ci.org/jungle-bay/telegram-bot-platform)
 [![Scrutinizer CI](https://img.shields.io/scrutinizer/g/jungle-bay/telegram-bot-platform.svg?style=flat)](https://scrutinizer-ci.com/g/jungle-bay/telegram-bot-platform)
 [![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-platform.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-platform)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/6c4d400a-048c-438f-a1b8-8672d2bab11c.svg?style=flat)](https://insight.sensiolabs.com/projects/6c4d400a-048c-438f-a1b8-8672d2bab11c)
 
 This is PHP Library for [Telegram Bot Platform](https://telegram.org/blog/bot-revolution). <br />
 You can follow [this](https://github.com/jungle-bay/telegram-bot-platform/blob/master/docs/readme.md) documentation to work with the library.
