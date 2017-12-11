@@ -11,8 +11,6 @@
 [![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-platform.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-platform)
 [![SensioLabsInsight](https://img.shields.io/sensiolabs/i/4b05f9bd-f0ff-4423-8d53-2e5817bbd648.svg?style=flat)](https://insight.sensiolabs.com/projects/4b05f9bd-f0ff-4423-8d53-2e5817bbd648)
 
-https://insight.sensiolabs.com/projects//big.png
-
 This is PHP Library for [Telegram Bot Platform](https://telegram.org/blog/bot-revolution). <br />
 You can follow [this](https://github.com/jungle-bay/telegram-bot-platform/blob/master/docs/readme.md) documentation to work with the library.
 
