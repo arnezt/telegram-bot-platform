@@ -1,10 +1,6 @@
-
-[![Logo](https://telegram.org/img/t_logo.png#center)](https://telegram.org/blog/bot-revolution)
-
-img[src*='#center'] { 
-    display: block;
-    margin: auto;
-}
+<p align="center">
+  <img width="320" height="320" src="https://telegram.org/img/t_logo.png">
+</p>
 
 # Telegram Bot Shell
 
