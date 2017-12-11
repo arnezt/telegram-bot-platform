@@ -1,4 +1,4 @@
-<a href="https://github.com/jungle-bay/telegram-bot-platform">
+<a href="https://telegram.org/blog/bot-revolution">
     <p align="center">
         <img width="128" height="128" src="logo.png" alt="Telegram Bot Platform Logo">
     </p>
