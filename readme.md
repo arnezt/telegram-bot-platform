@@ -6,10 +6,12 @@
 
 # Telegram Bot Platform
 
-[![Travis CI](https://img.shields.io/travis/jungle-bay/telegram-bot-shell.svg?style=flat)](https://travis-ci.org/jungle-bay/telegram-bot-shell)
-[![Scrutinizer CI](https://img.shields.io/scrutinizer/g/jungle-bay/telegram-bot-shell.svg?style=flat)](https://scrutinizer-ci.com/g/jungle-bay/telegram-bot-shell)
-[![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-shell.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-shell)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/84f8c0b7-506d-4116-819c-f2080a79bf66.svg?style=flat)](https://insight.sensiolabs.com/projects/84f8c0b7-506d-4116-819c-f2080a79bf66)
+[![Travis CI](https://img.shields.io/travis/jungle-bay/telegram-bot-platform.svg?style=flat)](https://travis-ci.org/jungle-bay/telegram-bot-platform)
+[![Scrutinizer CI](https://img.shields.io/scrutinizer/g/jungle-bay/telegram-bot-platform.svg?style=flat)](https://scrutinizer-ci.com/g/jungle-bay/telegram-bot-platform)
+[![Codecov](https://img.shields.io/codecov/c/github/jungle-bay/telegram-bot-platform.svg?style=flat)](https://codecov.io/gh/jungle-bay/telegram-bot-platform)
+[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/2a4f301b-b475-44c7-b568-3e5eae9c7c3f.svg?style=flat)](https://insight.sensiolabs.com/projects/2a4f301b-b475-44c7-b568-3e5eae9c7c3f)
+
+https://insight.sensiolabs.com/projects//big.png
 
 This is PHP Library for [Telegram Bot Platform](https://telegram.org/blog/bot-revolution). <br />
 You can follow [this](https://github.com/jungle-bay/telegram-bot-platform/blob/master/docs/readme.md) documentation to work with the library.
