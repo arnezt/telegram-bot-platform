@@ -31,7 +31,7 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $request = file_get_contents('php://input');                    // Request body. (JSON-serialized Update object)
 
-$tba = new \TelegramBotPlatform\TelegramBotPlatform(array(
+$tbp = new \TelegramBotPlatform\TelegramBotPlatform(array(
     'token'    => '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',  // Your token bot.
     'storage'  => $adapter,                                     // This adapter for Scrapbook library to store user sessions. See the complete adapters: https://github.com/matthiasmullie/scrapbook#adapters
     'payload'  => $db,                                          // This payload will be passed for third parameter to command. (optional)
@@ -45,7 +45,7 @@ $tba = new \TelegramBotPlatform\TelegramBotPlatform(array(
     )
 ), $request);
 
-$tba->run();
+$tbp->run();
 ```
 
 ### Docs
