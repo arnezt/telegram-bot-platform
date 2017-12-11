@@ -52,7 +52,7 @@ $tbp->run();
 
 See the complete docs in [here](https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/readme.md).
 
-##### Note
+### Note
 
 For the convenience of development, you can use [Telegram Bot CLI](https://github.com/jungle-bay/telegram-bot-cli).
 
