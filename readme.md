@@ -1,5 +1,7 @@
-<a href="https://github.com/jungle-bay/telegram-bot-platform" align="center">
-    <img width="128" height="128" src="logo.png" alt="Telegram Bot Platform Logo">
+<a href="https://github.com/jungle-bay/telegram-bot-platform">
+    <p align="center">
+        <img width="128" height="128" src="logo.png" alt="Telegram Bot Platform Logo">
+    </p>
 </a>
 
 # Telegram Bot Platform
