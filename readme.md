@@ -1,8 +1,8 @@
 <p align="center">
-  <img width="128" height="128" src="https://telegram.org/img/t_logo.png">
+  <img width="128" height="128" src="https://github.com/jungle-bay/telegram-bot-platform/blob/master/logo.pnd">
 </p>
 
-# Telegram Bot Shell
+# Telegram Bot Platform
 
 [![Travis CI](https://img.shields.io/travis/jungle-bay/telegram-bot-shell.svg?style=flat)](https://travis-ci.org/jungle-bay/telegram-bot-shell)
 [![Scrutinizer CI](https://img.shields.io/scrutinizer/g/jungle-bay/telegram-bot-shell.svg?style=flat)](https://scrutinizer-ci.com/g/jungle-bay/telegram-bot-shell)

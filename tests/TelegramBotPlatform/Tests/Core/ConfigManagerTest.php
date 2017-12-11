@@ -8,16 +8,16 @@
  * Time: 0:51
  */
 
-namespace TelegramBotShell\Tests\Core;
+namespace TelegramBotPlatform\Tests\Core;
 
 
 use PHPUnit\Framework\TestCase;
 use TelegramBotAPI\Types\Update;
 use TelegramBotAPI\TelegramBotAPI;
-use TelegramBotShell\Core\ConfigManager;
+use TelegramBotPlatform\Core\ConfigManager;
 use MatthiasMullie\Scrapbook\Psr16\SimpleCache;
 use MatthiasMullie\Scrapbook\Adapters\MemoryStore;
-use TelegramBotShell\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 
 /**
  * Class ConfigManagerTest

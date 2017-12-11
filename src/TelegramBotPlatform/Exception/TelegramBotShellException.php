@@ -8,7 +8,7 @@
  * Time: 18:52
  */
 
-namespace TelegramBotShell\Exception;
+namespace TelegramBotPlatform\Exception;
 
 
 use TelegramBotAPI\Exception\TelegramBotAPIException;

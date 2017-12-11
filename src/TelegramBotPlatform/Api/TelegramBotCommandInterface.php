@@ -8,11 +8,11 @@
  * Time: 18:48
  */
 
-namespace TelegramBotShell\Api;
+namespace TelegramBotPlatform\Api;
 
 
 use TelegramBotAPI\Types\Update;
-use TelegramBotShell\TelegramBotShell;
+use TelegramBotPlatform\TelegramBotShell;
 
 /**
  * This interface must be implemented by all telegram commands

@@ -8,14 +8,14 @@
  * Time: 18:48
  */
 
-namespace TelegramBotShell;
+namespace TelegramBotPlatform;
 
 
 use TelegramBotAPI\TelegramBotAPI;
-use TelegramBotShell\Core\ConfigManager;
-use TelegramBotShell\Core\UpdateHandler;
+use TelegramBotPlatform\Core\ConfigManager;
+use TelegramBotPlatform\Core\UpdateHandler;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
-use TelegramBotShell\Exception\TelegramBotShellException;
+use TelegramBotPlatform\Exception\TelegramBotShellException;
 
 /**
  * @package TelegramBotShell

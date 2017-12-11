@@ -30,12 +30,12 @@
     },
     "autoload": {
         "psr-4": {
-            "TelegramBotShell\\": "src/TelegramBotShell/"
+            "TelegramBotPlatform\\": "src/TelegramBotPlatform/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "TelegramBotShell\\Tests\\": "tests/TelegramBotShell/"
+            "TelegramBotPlatform\\Tests\\": "tests/TelegramBotPlatform/Tests/"
         }
     },
     "scripts": {

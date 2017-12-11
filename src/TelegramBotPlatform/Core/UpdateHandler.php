@@ -8,14 +8,14 @@
  * Time: 18:48
  */
 
-namespace TelegramBotShell\Core;
+namespace TelegramBotPlatform\Core;
 
 
-use TelegramBotShell\TelegramBotShell;
-use TelegramBotShell\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\TelegramBotShell;
+use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
-use TelegramBotShell\Exception\TelegramBotShellException;
-use TelegramBotShell\Exception\TelegramBotShellContextNotFoundException;
+use TelegramBotPlatform\Exception\TelegramBotShellException;
+use TelegramBotPlatform\Exception\TelegramBotShellContextNotFoundException;
 
 /**
  * Class UpdateHandler

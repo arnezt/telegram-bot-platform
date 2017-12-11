@@ -8,7 +8,7 @@
  * Time: 18:48
  */
 
-namespace TelegramBotShell\Core;
+namespace TelegramBotPlatform\Core;
 
 
 use TelegramBotAPI\Types\Update;
@@ -17,7 +17,7 @@ use MatthiasMullie\Scrapbook\KeyValueStore;
 use MatthiasMullie\Scrapbook\Psr16\SimpleCache;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
-use TelegramBotShell\Exception\TelegramBotShellException;
+use TelegramBotPlatform\Exception\TelegramBotShellException;
 
 /**
  * Class ConfigManager

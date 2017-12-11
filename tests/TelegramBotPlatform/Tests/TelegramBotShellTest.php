@@ -8,13 +8,13 @@
  * Time: 0:51
  */
 
-namespace TelegramBotShell\Tests;
+namespace TelegramBotPlatform\Tests;
 
 
 use PHPUnit\Framework\TestCase;
-use TelegramBotShell\TelegramBotShell;
+use TelegramBotPlatform\TelegramBotShell;
 use MatthiasMullie\Scrapbook\Adapters\MemoryStore;
-use TelegramBotShell\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 
 /**
@@ -185,7 +185,7 @@ class TelegramBotShellTest extends TestCase {
      * @param string $request
      * @throws TelegramBotAPIException
      * @dataProvider dataRequest
-     * @expectedException \TelegramBotShell\Exception\TelegramBotShellException
+     * @expectedException \TelegramBotPlatform\Exception\TelegramBotShellException
      */
     public function testRun($request) {
 
