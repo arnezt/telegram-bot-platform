@@ -6,7 +6,7 @@ The command needs to implement the `TelegramBotCommandInterface`, what to signal
 
 Example default command:
 
-> This command will work when TelegramBotPlatform will not find a command or context.
+> This command will work when `TelegramBotPlatform` will not find a command or context.
 
 ```php
 <?php
@@ -192,12 +192,12 @@ class UserCmd implements TelegramBotCommandInterface {
 }
 ```
 
-**To TelegramBotPlatform respond to the teams you need to register them!**
+**To `TelegramBotPlatform` respond to the teams you need to register them!**
 
 Example use:
 
-> Now you need to create a TelegramBotPlatform object and pass it certain data! <br />
-> And choose an adapter to store the context!
+> Now you need to create a `TelegramBotPlatform` object and pass it certain data! <br />
+> And choose an adapter to store the session!
 
 ```php
 <?php
