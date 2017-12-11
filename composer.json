@@ -23,7 +23,7 @@
     },
     "require": {
         "php": ">=5.5.0",
-        "jungle-bay/telegram-bot-api": "^3.5.1",
+        "jungle-bay/telegram-bot-api": "^3.5.2",
         "matthiasmullie/scrapbook": "^1.4.5"
     },
     "require-dev": {
