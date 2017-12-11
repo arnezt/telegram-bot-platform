@@ -1,0 +1,53 @@
+{
+    "name": "jungle-bay/telegram-bot-shell",
+    "description": "This is mechanism for processing bot commands",
+    "type": "library",
+    "keywords": [
+        "php",
+        "telegram",
+        "telegram-bot",
+        "telegram-bot-platform"
+    ],
+    "homepage": "https://github.com/jungle-bay/telegram-bot-shell",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Roma Baranenko",
+            "email": "jungle.romabb8@gmail.com",
+            "role": "Lead Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/jungle-bay/telegram-bot-shell/issues/"
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "jungle-bay/telegram-bot-api": "^3.5.1",
+        "matthiasmullie/scrapbook": "^1.4.5"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.36"
+    },
+    "autoload": {
+        "psr-4": {
+            "TelegramBotShell\\": "src/TelegramBotShell/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TelegramBotShell\\Tests\\": "tests/TelegramBotShell/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit --bootstrap vendor/autoload.php --filter",
+        "tests": "phpunit --bootstrap vendor/autoload.php tests"
+    },
+    "archive": {
+        "exclude": [
+            "*",
+            ".*",
+            "!src/*",
+            "!composer.json"
+        ]
+    }
+}
