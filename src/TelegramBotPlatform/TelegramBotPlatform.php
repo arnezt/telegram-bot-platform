@@ -15,6 +15,8 @@ use TelegramBotAPI\TelegramBotAPI;
 use TelegramBotPlatform\Core\ConfigManager;
 use TelegramBotPlatform\Core\UpdateHandler;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotPlatform\Api\TelegramConfigManagerInterface;
+use TelegramBotPlatform\Api\TelegramUpdateHandlerInterface;
 use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 
 /**
@@ -28,41 +30,54 @@ class TelegramBotPlatform {
 
 
     /**
-     * @var ConfigManager $cm
+     * @var TelegramConfigManagerInterface $cm
      */
     private $cm;
 
     /**
-     * @var UpdateHandler $uh
+     * @var TelegramUpdateHandlerInterface $uh
      */
     private $uh;
 
 
     /**
-     * @return ConfigManager
+     * @param array $config
+     * @param string $request
+     */
+    private function initDefaultObjects(array $config, $request) {
+
+        $cm = new ConfigManager($config, $request);
+
+        $this->setConfigManager($cm);
+        $this->setUpdateHandler(new UpdateHandler($cm));
+    }
+
+
+    /**
+     * @return TelegramConfigManagerInterface
      */
     public function getConfigManager() {
         return $this->cm;
     }
 
     /**
-     * @param ConfigManager $cm
+     * @param TelegramConfigManagerInterface $cm
      */
-    public function setConfigManager(ConfigManager $cm) {
+    public function setConfigManager(TelegramConfigManagerInterface $cm) {
         $this->cm = $cm;
     }
 
     /**
-     * @return UpdateHandler
+     * @return TelegramUpdateHandlerInterface
      */
     public function getUpdateHandler() {
         return $this->uh;
     }
 
     /**
-     * @param UpdateHandler $uh
+     * @param TelegramUpdateHandlerInterface $uh
      */
-    public function setUpdateHandler(UpdateHandler $uh) {
+    public function setUpdateHandler(TelegramUpdateHandlerInterface $uh) {
         $this->uh = $uh;
     }
 
@@ -141,9 +156,10 @@ class TelegramBotPlatform {
      * @param array $config
      * @param string $request
      */
-    public function __construct(array $config, $request) {
+    public function __construct(array $config = array(), $request = '') {
 
-        $this->setConfigManager(new ConfigManager($config, $request));
-        $this->setUpdateHandler(new UpdateHandler($this->getConfigManager()));
+        if (array() === $config || '' === $request) return;
+
+        $this->initDefaultObjects($config, $request);
     }
 }

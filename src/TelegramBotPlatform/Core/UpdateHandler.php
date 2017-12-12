@@ -14,6 +14,7 @@ namespace TelegramBotPlatform\Core;
 use TelegramBotPlatform\TelegramBotPlatform;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotPlatform\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\Api\TelegramUpdateHandlerInterface;
 use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 use TelegramBotPlatform\Exception\TelegramBotPlatformNotFoundException;
 
@@ -22,7 +23,7 @@ use TelegramBotPlatform\Exception\TelegramBotPlatformNotFoundException;
  * @package TelegramBotPlatform\Core
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class UpdateHandler {
+class UpdateHandler implements TelegramUpdateHandlerInterface {
 
     const BOT_COMMAND = 'bot_command';
 
@@ -236,9 +237,7 @@ class UpdateHandler {
 
 
     /**
-     * @param TelegramBotPlatform $tbp
-     * @throws TelegramBotAPIException
-     * @throws TelegramBotPlatformException
+     * {@inheritdoc}
      */
     public function runParser(TelegramBotPlatform $tbp) {
 
@@ -253,6 +252,7 @@ class UpdateHandler {
 
 
     /**
+     * UpdateHandler constructor.
      * @param ConfigManager $cm
      */
     public function __construct(ConfigManager $cm) {

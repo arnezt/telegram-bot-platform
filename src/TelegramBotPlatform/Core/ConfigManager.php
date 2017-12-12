@@ -16,6 +16,7 @@ use TelegramBotAPI\TelegramBotAPI;
 use MatthiasMullie\Scrapbook\KeyValueStore;
 use MatthiasMullie\Scrapbook\Psr16\SimpleCache;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotPlatform\Api\TelegramConfigManagerInterface;
 use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 
@@ -24,7 +25,7 @@ use TelegramBotPlatform\Exception\TelegramBotPlatformException;
  * @package TelegramBotPlatform\Core
  * @author Roma Baranenko <jungle.romabb8@gmail.com>
  */
-class ConfigManager {
+class ConfigManager implements TelegramConfigManagerInterface {
 
     /**
      * @var TelegramBotAPI $tba
@@ -144,14 +145,14 @@ class ConfigManager {
 
 
     /**
-     * @return TelegramBotAPI
+     * {@inheritdoc}
      */
     public function getTelegramBotAPI() {
         return $this->tba;
     }
 
     /**
-     * @return SimpleCache
+     * {@inheritdoc}
      */
     public function getStorage() {
         return $this->storage;
@@ -186,7 +187,7 @@ class ConfigManager {
     }
 
     /**
-     * @return Update
+     * {@inheritdoc}
      */
     public function getUpdate() {
         return $this->update;
