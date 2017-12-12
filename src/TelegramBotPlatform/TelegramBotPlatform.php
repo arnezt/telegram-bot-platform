@@ -158,7 +158,7 @@ class TelegramBotPlatform {
      */
     public function __construct(array $config = array(), $request = '') {
 
-        if (array() === $config || '' === $request) return;
+        if ((array() === $config) || ('' === $request)) return;
 
         $this->initDefaultObjects($config, $request);
     }
