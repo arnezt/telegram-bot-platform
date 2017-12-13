@@ -12,7 +12,6 @@ namespace TelegramBotPlatform\Tests;
 
 
 use PHPUnit\Framework\TestCase;
-use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 use TelegramBotPlatform\TelegramBotPlatform;
 use MatthiasMullie\Scrapbook\Adapters\MemoryStore;
 use TelegramBotPlatform\Tests\Stubs\TestCmdTestStub;
