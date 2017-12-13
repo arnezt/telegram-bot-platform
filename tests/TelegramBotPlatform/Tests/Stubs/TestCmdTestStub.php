@@ -11,7 +11,10 @@
 namespace TelegramBotPlatform\Tests\Stubs;
 
 
+use TelegramBotAPI\Exception\TelegramBotAPIException;
+use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 use TelegramBotAPI\Types\Update;
+use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 use TelegramBotPlatform\TelegramBotPlatform;
 use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 
@@ -28,9 +31,19 @@ class TestCmdTestStub implements TelegramBotCommandInterface {
      * @return bool Return true if successful.
      * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
      */
-    public function next(TelegramBotPlatform $tbp, Update $update, $payload = null) {
+    public function next(TelegramBotPlatform $tbp, Update $update) {
 
         $tbp->deleteSession($update->getMessage()->getChat()->getId());
+
+        try {
+            $tbp->getTelegramBotAPI()->sendMessage(array(
+                'chat_id' => $update->getMessage()->getChat()->getId(),
+                'text'    => 'next'
+            ));
+        } catch (TelegramBotAPIRuntimeException $e) {
+        } catch (TelegramBotPlatformException $e) {
+        } catch (TelegramBotAPIException $e) {
+        }
 
         return true;
     }
@@ -41,13 +54,23 @@ class TestCmdTestStub implements TelegramBotCommandInterface {
      */
     public function execute(TelegramBotPlatform $tbp, Update $update, $payload = null) {
 
-        $tbp->setSession(array(
+        $is = $tbp->setSession(array(
             'id'      => $update->getMessage()->getChat()->getId(),
             'context' => array(
                 'class'  => self::class,
                 'method' => 'next'
             )
         ));
+
+        try {
+            $tbp->getTelegramBotAPI()->sendMessage(array(
+                'chat_id' => $update->getMessage()->getChat()->getId(),
+                'text'    => "execute {$is}"
+            ));
+        } catch (TelegramBotAPIRuntimeException $e) {
+        } catch (TelegramBotPlatformException $e) {
+        } catch (TelegramBotAPIException $e) {
+        }
 
         return true;
     }

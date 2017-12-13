@@ -23,22 +23,6 @@ use TelegramBotPlatform\Tests\TelegramBotPlatformTest;
 class UpdateHandlerTest extends TestCase {
 
     /**
-     * @return array
-     */
-    public function dataProvider() {
-
-        $oneRequest = TelegramBotPlatformTest::getRequest(747719235, 59673324, '/cmd', 'bot_command');
-        $twoRequest = TelegramBotPlatformTest::getRequest(747719236, 59673324, '/test', 'bot_command');
-        $treeRequest = TelegramBotPlatformTest::getRequest(747719237, 59673324, 'asd', 'text');
-
-        return array(
-            array($oneRequest),
-            array($twoRequest),
-            array($treeRequest)
-        );
-    }
-
-    /**
      * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
      */
     public function testSetGetConfigManager() {
@@ -56,14 +40,23 @@ class UpdateHandlerTest extends TestCase {
     }
 
     /**
-     * @param $request
-     * @dataProvider dataProvider
      * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
+     * @throws \TelegramBotAPI\Exception\TelegramBotAPIException
      */
-    public function testRunParser($request) {
+    public function testRunParser() {
 
-        $tbp = new TelegramBotPlatform(TelegramBotPlatformTest::getConfig(), $request);
+        $config = TelegramBotPlatformTest::getConfig();
 
-        $tbp->getUpdateHandler()->runParser($tbp);
+        $twoRequest = TelegramBotPlatformTest::getRequest(747719236, 59673324, '/test', 'bot_command');
+
+        $tbp = new TelegramBotPlatform($config, $twoRequest);
+
+        $tbp->run();
+
+        $treeRequest = TelegramBotPlatformTest::getRequest(747719237, 59673324, 'asd', 'text');
+
+        $tbp = new TelegramBotPlatform($config, $treeRequest);
+
+        $tbp->run();
     }
 }
