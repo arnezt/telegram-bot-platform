@@ -5,4 +5,4 @@ It is designed only for **running commands** and holding **chat session** betwee
 
 * **[Getting Started guide](https://github.com/jungle-bay/telegram-bot-platform/tree/master/docs/guide.md)**
 * **[API reference](https://github.com/jungle-bay/telegram-bot-platform/tree/master/docs/api.md)**
-* **[Custom handlers](https://github.com/jungle-bay/telegram-bot-platform/tree/master/docs/customs.md)**
+* **[Customization handlers](https://github.com/jungle-bay/telegram-bot-platform/tree/master/docs/customization.md)**
