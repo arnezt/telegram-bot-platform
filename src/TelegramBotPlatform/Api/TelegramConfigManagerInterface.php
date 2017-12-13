@@ -47,7 +47,7 @@ interface TelegramConfigManagerInterface {
     public function getInlineQueryCommand();
 
     /**
-     * @return array<string, string>
+     * @return array
      */
     public function getCommands();
 
