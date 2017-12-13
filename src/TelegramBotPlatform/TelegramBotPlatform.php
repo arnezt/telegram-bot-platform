@@ -41,22 +41,29 @@ class TelegramBotPlatform {
 
 
     /**
+     * @throws TelegramBotPlatformException
+     */
+    private function initUpdateHandler() {
+        $this->setUpdateHandler(new UpdateHandler($this->getConfigManager()));
+    }
+
+    /**
      * @param array $config
      * @param string $request
      */
-    private function initDefaultObjects(array $config, $request) {
-
-        $cm = new ConfigManager($config, $request);
-
-        $this->setConfigManager($cm);
-        $this->setUpdateHandler(new UpdateHandler($cm));
+    private function initConfigManager(array $config, $request) {
+        $this->setConfigManager(new ConfigManager($config, $request));
     }
 
 
     /**
      * @return TelegramConfigManagerInterface
+     * @throws TelegramBotPlatformException
      */
     public function getConfigManager() {
+
+        if (null === $this->cm) throw new TelegramBotPlatformException('Config Manager not initialized.');
+
         return $this->cm;
     }
 
@@ -69,8 +76,12 @@ class TelegramBotPlatform {
 
     /**
      * @return TelegramUpdateHandlerInterface
+     * @throws TelegramBotPlatformException
      */
     public function getUpdateHandler() {
+
+        if (null === $this->uh) $this->initUpdateHandler();
+
         return $this->uh;
     }
 
@@ -85,9 +96,30 @@ class TelegramBotPlatform {
      * @api
      * @link https://core.telegram.org/bots/api
      * @return TelegramBotAPI
+     * @throws TelegramBotPlatformException
      */
     public function getTelegramBotAPI() {
         return $this->getConfigManager()->getTelegramBotAPI();
+    }
+
+    /**
+     * @api
+     * @link https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/api.md#3-deletesession
+     * @param string|int $id
+     * @return bool
+     * @throws TelegramBotPlatformException
+     */
+    public function deleteSession($id) {
+        return $this->getConfigManager()->getStorage()->delete(self::TELEGRAM_SESSION_PREFIX . $id);
+    }
+
+    /**
+     * @param string|int $id
+     * @return array|null
+     * @throws TelegramBotPlatformException
+     */
+    public function getSession($id) {
+        return $this->getConfigManager()->getStorage()->get(self::TELEGRAM_SESSION_PREFIX . $id);
     }
 
     /**
@@ -121,24 +153,6 @@ class TelegramBotPlatform {
         }
     }
 
-    /**
-     * @param string|int $id
-     * @return array|null
-     */
-    public function getSession($id) {
-        return $this->getConfigManager()->getStorage()->get(self::TELEGRAM_SESSION_PREFIX . $id);
-    }
-
-    /**
-     * @api
-     * @link https://github.com/jungle-bay/telegram-bot-shell/blob/master/docs/api.md#3-deletesession
-     * @param string|int $id
-     * @return bool
-     */
-    public function deleteSession($id) {
-        return $this->getConfigManager()->getStorage()->delete(self::TELEGRAM_SESSION_PREFIX . $id);
-    }
-
 
     /**
      * @api
@@ -160,6 +174,6 @@ class TelegramBotPlatform {
 
         if ((array() === $config) || ('' === $request)) return;
 
-        $this->initDefaultObjects($config, $request);
+        $this->initConfigManager($config, $request);
     }
 }

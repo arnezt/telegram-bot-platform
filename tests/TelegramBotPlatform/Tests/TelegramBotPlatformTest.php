@@ -114,6 +114,9 @@ class TelegramBotPlatformTest extends TestCase {
     }
 
 
+    /**
+     * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
+     */
     public function testGetConfigManager() {
 
         $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
@@ -138,6 +141,9 @@ class TelegramBotPlatformTest extends TestCase {
         $this->assertEquals($config['token'], $tbp->getTelegramBotAPI()->getToken());
     }
 
+    /**
+     * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
+     */
     public function testGetUpdateHandler() {
 
         $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
@@ -171,6 +177,9 @@ class TelegramBotPlatformTest extends TestCase {
         $this->assertEquals('execute', $session['method']);
     }
 
+    /**
+     * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
+     */
     public function testDeleteSession() {
 
         $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');

@@ -37,6 +37,26 @@ interface TelegramConfigManagerInterface {
     public function getStorage();
 
     /**
+     * @return string
+     */
+    public function getDefaultCommand();
+
+    /**
+     * @return string
+     */
+    public function getInlineQueryCommand();
+
+    /**
+     * @return array<string, string>
+     */
+    public function getCommands();
+
+    /**
+     * @return mixed|null
+     */
+    public function getPayload();
+
+    /**
      * @return Update
      */
     public function getUpdate();

@@ -14,6 +14,7 @@ namespace TelegramBotPlatform\Core;
 use TelegramBotPlatform\TelegramBotPlatform;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotPlatform\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\Api\TelegramConfigManagerInterface;
 use TelegramBotPlatform\Api\TelegramUpdateHandlerInterface;
 use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 use TelegramBotPlatform\Exception\TelegramBotPlatformNotFoundException;
@@ -29,7 +30,7 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
 
 
     /**
-     * @var ConfigManager $cm
+     * @var TelegramConfigManagerInterface $cm
      */
     private $cm;
 
@@ -222,16 +223,16 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
 
 
     /**
-     * @return ConfigManager
+     * @return TelegramConfigManagerInterface
      */
     public function getConfigManager() {
         return $this->cm;
     }
 
     /**
-     * @param ConfigManager $cm
+     * @param TelegramConfigManagerInterface $cm
      */
-    public function setConfigManager(ConfigManager $cm) {
+    public function setConfigManager(TelegramConfigManagerInterface $cm) {
         $this->cm = $cm;
     }
 
@@ -253,9 +254,9 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
 
     /**
      * UpdateHandler constructor.
-     * @param ConfigManager $cm
+     * @param TelegramConfigManagerInterface $cm
      */
-    public function __construct(ConfigManager $cm) {
+    public function __construct(TelegramConfigManagerInterface $cm) {
         $this->setConfigManager($cm);
     }
 }
