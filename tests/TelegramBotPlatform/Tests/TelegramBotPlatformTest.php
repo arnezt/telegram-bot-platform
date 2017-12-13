@@ -12,6 +12,7 @@ namespace TelegramBotPlatform\Tests;
 
 
 use PHPUnit\Framework\TestCase;
+use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 use TelegramBotPlatform\TelegramBotPlatform;
 use MatthiasMullie\Scrapbook\Adapters\MemoryStore;
 use TelegramBotPlatform\Tests\Stubs\TestCmdTestStub;
@@ -147,6 +148,19 @@ class TelegramBotPlatformTest extends TestCase {
         $tbp = new TelegramBotPlatform(self::getConfig(), $request);
 
         $this->assertNotNull($tbp->getUpdateHandler());
+    }
+
+    /**
+     * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
+     * @expectedException \TelegramBotPlatform\Exception\TelegramBotPlatformException
+     */
+    public function testSetSessionEmpty() {
+
+        $request = self::getRequest(747719238, 59673324, 'ok!', 'text');
+
+        $tbp = new TelegramBotPlatform(self::getConfig(), $request);
+
+        $tbp->setSession(array());
     }
 
     /**
