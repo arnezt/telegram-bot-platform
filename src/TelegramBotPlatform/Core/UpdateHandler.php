@@ -53,7 +53,7 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
      * @return int
      * @throws TelegramBotPlatformNotFoundException
      */
-    private function getUserIdByUpdate(Update $update) {
+    private function getSessionIdByUpdate(Update $update) {
 
         switch (true) {
 
@@ -159,7 +159,7 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
 
         $update = $this->getConfigManager()->getUpdate();
 
-        $id = $this->getUserIdByUpdate($update);
+        $id = $this->getSessionIdByUpdate($update);
 
         $session = $tbp->getSession($id);
 
