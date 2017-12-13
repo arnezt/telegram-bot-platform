@@ -22,14 +22,33 @@ use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 class TestCmdTestStub implements TelegramBotCommandInterface {
 
     /**
-     * This method is started and is the entry point to the command.
-     *
      * @param TelegramBotPlatform $tbp
      * @param Update $update
      * @param mixed|null $payload
      * @return bool Return true if successful.
+     * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
+     */
+    public function next(TelegramBotPlatform $tbp, Update $update, $payload = null) {
+
+        $tbp->deleteSession($update->getMessage()->getChat()->getId());
+
+        return true;
+    }
+
+
+    /**
+     * {@inheritdoc}
      */
     public function execute(TelegramBotPlatform $tbp, Update $update, $payload = null) {
+
+        $tbp->setSession(array(
+            'id'      => $update->getMessage()->getChat()->getId(),
+            'context' => array(
+                'class'  => self::class,
+                'method' => 'next'
+            )
+        ));
+
         return true;
     }
 }

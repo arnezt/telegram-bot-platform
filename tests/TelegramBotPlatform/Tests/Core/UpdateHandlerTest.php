@@ -28,11 +28,13 @@ class UpdateHandlerTest extends TestCase {
     public function dataProvider() {
 
         $oneRequest = TelegramBotPlatformTest::getRequest(747719235, 59673324, '/cmd', 'bot_command');
-        $twoRequest = TelegramBotPlatformTest::getRequest(747719235, 59673324, '/test', 'bot_command');
+        $twoRequest = TelegramBotPlatformTest::getRequest(747719236, 59673324, '/test', 'bot_command');
+        $treeRequest = TelegramBotPlatformTest::getRequest(747719237, 59673324, 'asd', 'text');
 
         return array(
             array($oneRequest),
-            array($twoRequest)
+            array($twoRequest),
+            array($treeRequest)
         );
     }
 
