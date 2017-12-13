@@ -14,8 +14,10 @@ namespace TelegramBotPlatform\Tests;
 use PHPUnit\Framework\TestCase;
 use TelegramBotPlatform\TelegramBotPlatform;
 use MatthiasMullie\Scrapbook\Adapters\MemoryStore;
+use TelegramBotPlatform\Tests\Stubs\TestCmdTestStub;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
-use TelegramBotPlatform\Api\TelegramBotCommandInterface;
+use TelegramBotPlatform\Tests\Stubs\DefaultCmdTestStub;
+use TelegramBotPlatform\Tests\Stubs\InlineQueryCmdTestStub;
 
 /**
  * Class TelegramBotPlatformTest
@@ -31,14 +33,14 @@ class TelegramBotPlatformTest extends TestCase {
      * @param string $type
      * @return string
      */
-    public function getRequest($updateId, $chatId, $text, $type) {
+    public static function getRequest($updateId, $chatId, $text, $type) {
 
         $request = '{
             "update_id": %d,
             "message": {
                 "message_id": 1591,
                 "from": {
-                    "id": 59673324,
+                    "id": %d,
                     "is_bot": false,
                     "first_name": "Roma",
                     "last_name": "Baranenko",
@@ -64,18 +66,13 @@ class TelegramBotPlatformTest extends TestCase {
             }
         }';
 
-        return sprintf($request, $updateId, $chatId, $text, strlen($text), $type);
+        return sprintf($request, $updateId, $chatId, $chatId, $text, strlen($text), $type);
     }
 
     /**
      * @return array
      */
-    public function getConfig() {
-
-        $mockBuilder = $this->getMockBuilder(TelegramBotCommandInterface::class);
-        $mockBuilder = $mockBuilder->disableOriginalConstructor();
-        $mockBuilder = $mockBuilder->setMethods(array('execute'));
-        $mockCmd = $mockBuilder->getMock();
+    public static function getConfig() {
 
         $adapter = new MemoryStore();
 
@@ -84,11 +81,10 @@ class TelegramBotPlatformTest extends TestCase {
             'storage'  => $adapter,
             'payload'  => null,
             'mappings' => array(
-                'default'      => get_class($mockCmd),
-                'inline_query' => get_class($mockCmd),
+                'default'      => DefaultCmdTestStub::class,
+                'inline_query' => InlineQueryCmdTestStub::class,
                 'commands'     => array(
-                    'help' => get_class($mockCmd),
-                    'user' => get_class($mockCmd)
+                    'test' => TestCmdTestStub::class
                 )
             )
         );
@@ -100,10 +96,10 @@ class TelegramBotPlatformTest extends TestCase {
      */
     public function dataProvider() {
 
-        $oneRequest = $this->getRequest(747719235, 59673324, '/cmd', 'bot_command');
-        $twoRequest = $this->getRequest(747719236, 59673324, '/user', 'bot_command');
-        $freeRequest = $this->getRequest(747719237, 59673324, 'Nike Cortez', 'text');
-        $fourRequest = $this->getRequest(747719238, 59673324, 'ok!', 'text');
+        $oneRequest = self::getRequest(747719235, 59673324, '/cmd', 'bot_command');
+        $twoRequest = self::getRequest(747719236, 59673324, '/user', 'bot_command');
+        $freeRequest = self::getRequest(747719237, 59673324, 'Nike Cortez', 'text');
+        $fourRequest = self::getRequest(747719238, 59673324, 'ok!', 'text');
 
         return array(
             array($oneRequest),
@@ -119,9 +115,9 @@ class TelegramBotPlatformTest extends TestCase {
      */
     public function testGetConfigManager() {
 
-        $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
+        $request = self::getRequest(747719238, 59673324, 'ok!', 'text');
 
-        $tbp = new TelegramBotPlatform($this->getConfig(), $request);
+        $tbp = new TelegramBotPlatform(self::getConfig(), $request);
 
         $this->assertNotNull($tbp->getConfigManager());
         $this->assertEquals(747719238, $tbp->getConfigManager()->getUpdate()->getUpdateId());
@@ -132,10 +128,10 @@ class TelegramBotPlatformTest extends TestCase {
      */
     public function testGetTelegramBotAPI() {
 
-        $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
-        $config = $this->getConfig();
+        $request = self::getRequest(747719238, 59673324, 'ok!', 'text');
+        $config = self::getConfig();
 
-        $tbp = new TelegramBotPlatform($this->getConfig(), $request);
+        $tbp = new TelegramBotPlatform(self::getConfig(), $request);
 
         $this->assertNotNull($tbp->getTelegramBotAPI());
         $this->assertEquals($config['token'], $tbp->getTelegramBotAPI()->getToken());
@@ -146,9 +142,9 @@ class TelegramBotPlatformTest extends TestCase {
      */
     public function testGetUpdateHandler() {
 
-        $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
+        $request = self::getRequest(747719238, 59673324, 'ok!', 'text');
 
-        $tbp = new TelegramBotPlatform($this->getConfig(), $request);
+        $tbp = new TelegramBotPlatform(self::getConfig(), $request);
 
         $this->assertNotNull($tbp->getUpdateHandler());
     }
@@ -158,9 +154,9 @@ class TelegramBotPlatformTest extends TestCase {
      */
     public function testSetGetSession() {
 
-        $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
+        $request = self::getRequest(747719238, 59673324, 'ok!', 'text');
 
-        $tbp = new TelegramBotPlatform($this->getConfig(), $request);
+        $tbp = new TelegramBotPlatform(self::getConfig(), $request);
 
         $tbp->setSession(array(
             'id'      => $tbp->getConfigManager()->getUpdate()->getMessage()->getChat()->getId(),
@@ -182,9 +178,9 @@ class TelegramBotPlatformTest extends TestCase {
      */
     public function testDeleteSession() {
 
-        $request = $this->getRequest(747719238, 59673324, 'ok!', 'text');
+        $request = self::getRequest(747719238, 59673324, 'ok!', 'text');
 
-        $tbp = new TelegramBotPlatform($this->getConfig(), $request);
+        $tbp = new TelegramBotPlatform(self::getConfig(), $request);
 
         $tbp->deleteSession($tbp->getConfigManager()->getUpdate()->getMessage()->getChat()->getId());
 
@@ -201,7 +197,7 @@ class TelegramBotPlatformTest extends TestCase {
      */
     public function testRun($request) {
 
-        $tbp = new TelegramBotPlatform($this->getConfig(), $request);
+        $tbp = new TelegramBotPlatform(self::getConfig(), $request);
 
         $tbp->run();
     }

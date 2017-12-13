@@ -16,7 +16,7 @@ use TelegramBotAPI\Types\Update;
 use TelegramBotAPI\TelegramBotAPI;
 use TelegramBotPlatform\Core\ConfigManager;
 use MatthiasMullie\Scrapbook\Psr16\SimpleCache;
-use MatthiasMullie\Scrapbook\Adapters\MemoryStore;
+use TelegramBotPlatform\Tests\TelegramBotPlatformTest;
 use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 
 /**
@@ -29,82 +29,37 @@ class ConfigManagerTest extends TestCase {
     /**
      * @return array
      */
-    public function getConfig() {
+    public function dataProvider() {
 
-        $mockBuilder = $this->getMockBuilder(TelegramBotCommandInterface::class);
-        $mockBuilder = $mockBuilder->disableOriginalConstructor();
-        $mockBuilder = $mockBuilder->setMethods(array('execute'));
-        $mockCmd = $mockBuilder->getMock();
-
-        $adapter = new MemoryStore();
+        $request = TelegramBotPlatformTest::getRequest(747719235, 59673324, '/cmd', 'bot_command');
 
         return array(
-            'token'    => '479218867:AAGjGTwl0F-prMPIC6-AkNuLD1Bb2tRsYbc',
-            'storage'  => $adapter,
-            'payload'  => null,
-            'mappings' => array(
-                'default'      => get_class($mockCmd),
-                'inline_query' => get_class($mockCmd),
-                'commands'     => array(
-                    'help' => get_class($mockCmd),
-                    'user' => get_class($mockCmd)
-                )
-            )
+            array($request)
         );
     }
 
-    /**
-     * @return string
-     */
-    public function getRequest() {
-        return '{
-            "update_id": 747719235,
-            "message": {
-                "message_id": 1591,
-                "from": {
-                    "id": 59673324,
-                    "is_bot": false,
-                    "first_name": "Roma",
-                    "last_name": "Baranenko",
-                    "username": "roma_bb8",
-                    "language_code": "ru"
-                },
-                "chat": {
-                    "id": 59673324,
-                    "first_name": "Roma",
-                    "last_name": "Baranenko",
-                    "username": "roma_bb8",
-                    "type": "private"
-                },
-                "date": 1508587194,
-                "text": "/cmd",
-                "entities": [
-                    {
-                        "offset": 0,
-                        "length": 4,
-                        "type": "bot_command"
-                    }
-                ]
-            }
-        }';
-    }
-
 
     /**
+     * @param $request
+     * @dataProvider dataProvider
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
-    public function testGetTelegramBotAPIEmpty() {
+    public function testGetTelegramBotAPIEmpty($request) {
 
-        $config = $this->getConfig();
+        $config = TelegramBotPlatformTest::getConfig();
 
         unset($config['token']);
 
-        new ConfigManager($config, $this->getRequest());
+        new ConfigManager($config, $request);
     }
 
-    public function testGetTelegramBotAPI() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetTelegramBotAPI($request) {
 
-        $cm = new ConfigManager($this->getConfig(), $this->getRequest());
+        $cm = new ConfigManager(TelegramBotPlatformTest::getConfig(), $request);
 
         $this->assertNotNull($cm->getTelegramBotAPI());
         $this->assertInstanceOf(TelegramBotAPI::class, $cm->getTelegramBotAPI());
@@ -112,40 +67,54 @@ class ConfigManagerTest extends TestCase {
 
 
     /**
+     * @param $request
+     * @dataProvider dataProvider
      * @expectedException \TelegramBotPlatform\Exception\TelegramBotPlatformException
      */
-    public function testGetStorageEmpty() {
+    public function testGetStorageEmpty($request) {
 
-        $config = $this->getConfig();
+        $config = TelegramBotPlatformTest::getConfig();
 
         unset($config['storage']);
 
-        new ConfigManager($config, $this->getRequest());
+        new ConfigManager($config, $request);
     }
 
-    public function testGetStorage() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetStorage($request) {
 
-        $cm = new ConfigManager($this->getConfig(), $this->getRequest());
+        $cm = new ConfigManager(TelegramBotPlatformTest::getConfig(), $request);
 
         $this->assertNotNull($cm->getStorage());
         $this->assertInstanceOf(SimpleCache::class, $cm->getStorage());
     }
 
 
-    public function testGetDefaultCommandEmpty() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetDefaultCommandEmpty($request) {
 
-        $config = $this->getConfig();
+        $config = TelegramBotPlatformTest::getConfig();
 
         unset($config['mappings']['default']);
 
-        $cm = new ConfigManager($config, $this->getRequest());
+        $cm = new ConfigManager($config, $request);
 
         $this->assertNull($cm->getDefaultCommand());
     }
 
-    public function testGetDefaultCommand() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetDefaultCommand($request) {
 
-        $cm = new ConfigManager($this->getConfig(), $this->getRequest());
+        $cm = new ConfigManager(TelegramBotPlatformTest::getConfig(), $request);
 
         $this->assertNotNull($cm->getDefaultCommand());
 
@@ -157,46 +126,61 @@ class ConfigManagerTest extends TestCase {
     }
 
 
-    public function testGetCommandsEmpty() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetCommandsEmpty($request) {
 
-        $config = $this->getConfig();
+        $config = TelegramBotPlatformTest::getConfig();
 
         unset($config['mappings']);
 
-        $cm = new ConfigManager($config, $this->getRequest());
+        $cm = new ConfigManager($config, $request);
 
         $this->assertNotNull($cm->getCommands());
         $this->assertEquals(array(), $cm->getCommands());
     }
 
-    public function testGetCommands() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetCommands($request) {
 
-        $cm = new ConfigManager($this->getConfig(), $this->getRequest());
+        $cm = new ConfigManager(TelegramBotPlatformTest::getConfig(), $request);
 
         $this->assertNotNull($cm->getCommands());
 
         $commands = $cm->getCommands();
 
-        $this->assertEquals(2, count($commands));
-        $this->assertTrue(array_key_exists('help', $commands));
-        $this->assertTrue(array_key_exists('user', $commands));
+        $this->assertEquals(1, count($commands));
+        $this->assertTrue(array_key_exists('test', $commands));
     }
 
 
-    public function testGetPayloadEmpty() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetPayloadEmpty($request) {
 
-        $cm = new ConfigManager($this->getConfig(), $this->getRequest());
+        $cm = new ConfigManager(TelegramBotPlatformTest::getConfig(), $request);
 
         $this->assertNull($cm->getPayload());
     }
 
-    public function testGetPayload() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetPayload($request) {
 
-        $config = $this->getConfig();
+        $config = TelegramBotPlatformTest::getConfig();
 
         $config['payload'] = 'hello world!';
 
-        $cm = new ConfigManager($config, $this->getRequest());
+        $cm = new ConfigManager($config, $request);
 
         $this->assertNotNull($cm->getPayload());
         $this->assertEquals('hello world!', $cm->getPayload());
@@ -207,12 +191,16 @@ class ConfigManagerTest extends TestCase {
      * @expectedException \TelegramBotAPI\Exception\TelegramBotAPIException
      */
     public function testGetUpdateEmpty() {
-        new ConfigManager($this->getConfig(), null);
+        new ConfigManager(TelegramBotPlatformTest::getConfig(), null);
     }
 
-    public function testGetUpdate() {
+    /**
+     * @param $request
+     * @dataProvider dataProvider
+     */
+    public function testGetUpdate($request) {
 
-        $cm = new ConfigManager($this->getConfig(), $this->getRequest());
+        $cm = new ConfigManager(TelegramBotPlatformTest::getConfig(), $request);
 
         $this->assertNotNull($cm->getUpdate());
         $this->assertInstanceOf(Update::class, $cm->getUpdate());
