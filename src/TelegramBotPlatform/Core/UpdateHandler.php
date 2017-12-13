@@ -11,6 +11,7 @@
 namespace TelegramBotPlatform\Core;
 
 
+use TelegramBotAPI\Types\Update;
 use TelegramBotPlatform\TelegramBotPlatform;
 use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotPlatform\Api\TelegramBotCommandInterface;
@@ -44,6 +45,57 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
         if ($command instanceof TelegramBotCommandInterface) return;
 
         throw new TelegramBotPlatformException('This ' . get_class($command) . ' not a command of Telegram Bot.');
+    }
+
+
+    /**
+     * @param Update $update
+     * @return int
+     * @throws TelegramBotPlatformNotFoundException
+     */
+    private function getIdByUpdate(Update $update) {
+
+        switch (true) {
+
+            case null !== $update->getMessage():
+
+                return $update->getMessage()->getChat()->getId();
+
+            case null !== $update->getEditedMessage():
+
+                return $update->getEditedMessage()->getChat()->getId();
+
+            case null !== $update->getChannelPost():
+
+                return $update->getChannelPost()->getChat()->getId();
+
+            case null !== $update->getEditedChannelPost():
+
+                return $update->getEditedChannelPost()->getChat()->getId();
+
+            case null !== $update->getInlineQuery():
+
+                return $update->getInlineQuery()->getFrom()->getId();
+
+            case null !== $update->getChosenInlineResult():
+
+                return $update->getChosenInlineResult()->getFrom()->getId();
+
+            case null !== $update->getCallbackQuery():
+
+                return $update->getCallbackQuery()->getFrom()->getId();
+
+            case null !== $update->getShippingQuery():
+
+                return $update->getShippingQuery()->getFrom()->getId();
+
+            case null !== $update->getPreCheckoutQuery():
+
+                return $update->getPreCheckoutQuery()->getFrom()->getId();
+
+            default:
+                throw new TelegramBotPlatformNotFoundException('I could not understand the update object.');
+        }
     }
 
 
@@ -90,6 +142,10 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
 
         if (null === $inlineQueryCommand) return false;
 
+        $update = $this->getConfigManager()->getUpdate();
+
+        if (null === $update->getInlineQuery()) return false;
+
         return $this->execute($tbp, $inlineQueryCommand, 'execute');
     }
 
@@ -103,69 +159,7 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
 
         $update = $this->getConfigManager()->getUpdate();
 
-        switch (true) {
-
-            case null !== $update->getMessage():
-
-                $id = $update->getMessage()->getChat()->getId();
-
-                break;
-
-            case null !== $update->getEditedMessage():
-
-                $id = $update->getEditedMessage()->getChat()->getId();
-
-                break;
-
-            case null !== $update->getChannelPost():
-
-                $id = $update->getChannelPost()->getChat()->getId();
-
-                break;
-
-            case null !== $update->getEditedChannelPost():
-
-                $id = $update->getEditedChannelPost()->getChat()->getId();
-
-                break;
-
-            case null !== $update->getInlineQuery():
-
-                $isWork = $this->executeInlineQuery($tbp);
-
-                if (true === $isWork) return true;
-
-                $id = $update->getInlineQuery()->getFrom()->getId();
-
-                break;
-
-            case null !== $update->getChosenInlineResult():
-
-                $id = $update->getChosenInlineResult()->getFrom()->getId();
-
-                break;
-
-            case null !== $update->getCallbackQuery():
-
-                $id = $update->getCallbackQuery()->getFrom()->getId();
-
-                break;
-
-            case null !== $update->getShippingQuery():
-
-                $id = $update->getShippingQuery()->getFrom()->getId();
-
-                break;
-
-            case null !== $update->getPreCheckoutQuery():
-
-                $id = $update->getPreCheckoutQuery()->getFrom()->getId();
-
-                break;
-
-            default:
-                return false;
-        }
+        $id = $this->getIdByUpdate($update);
 
         $session = $tbp->getSession($id);
 
@@ -243,6 +237,8 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
     public function runParser(TelegramBotPlatform $tbp) {
 
         if (true === $this->executeCommand($tbp)) return;
+
+        elseif (true === $this->executeInlineQuery($tbp)) return;
 
         elseif (true === $this->executeSession($tbp)) return;
 

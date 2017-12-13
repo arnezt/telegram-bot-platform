@@ -11,12 +11,10 @@
 namespace TelegramBotPlatform\Exception;
 
 
-use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
-
 /**
  * Class TelegramBotPlatformNotFoundException
  * @package TelegramBotPlatform\Exception
  */
-class TelegramBotPlatformNotFoundException extends TelegramBotAPIRuntimeException {
+class TelegramBotPlatformNotFoundException extends TelegramBotPlatformException {
 
 }
