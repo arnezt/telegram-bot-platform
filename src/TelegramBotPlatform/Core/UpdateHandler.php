@@ -138,13 +138,13 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
      */
     private function executeInlineQuery(TelegramBotPlatform $tbp) {
 
-        $inlineQueryCommand = $this->getConfigManager()->getInlineQueryCommand();
-
-        if (null === $inlineQueryCommand) return false;
-
         $update = $this->getConfigManager()->getUpdate();
 
         if (null === $update->getInlineQuery()) return false;
+
+        $inlineQueryCommand = $this->getConfigManager()->getInlineQueryCommand();
+
+        if (null === $inlineQueryCommand) return false;
 
         return $this->execute($tbp, $inlineQueryCommand, 'execute');
     }
