@@ -3,7 +3,7 @@
 It happens that we need to redefine the **business logic**. <br />
 Then we can change the **default handlers**.
 
-Example custom UpdateHandler:
+Example custom `MyUpdateHandler`:
 
 ```php
 <?php
@@ -28,7 +28,7 @@ class MyUpdateHandler implements TelegramUpdateHandlerInterface {
 }
 ```
 
-Example use custom UpdateHandler:
+Example use custom `MyUpdateHandler`:
 
 ```php
 <?php
@@ -49,7 +49,7 @@ $tbp->setUpdateHandler($updateHandler);
 $tbp->run();
 ```
 
-Example custom ConfigManager:
+Example custom `MyConfigManager`:
 
 ```php
 <?php
@@ -124,7 +124,7 @@ class MyConfigManager implements TelegramConfigManagerInterface {
 }
 ```
 
-Example use custom MyConfigManager:
+Example use custom `MyConfigManager`:
 
 ```php
 <?php
