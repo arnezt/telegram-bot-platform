@@ -35,7 +35,7 @@ Example use custom UpdateHandler:
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Your personal code.
+// ...
 
 $tbp = new \TelegramBotPlatform\TelegramBotPlatform(array(
     'token'    => '123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11',
@@ -131,7 +131,7 @@ Example use custom MyConfigManager:
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// Your personal code.
+// ...
 
 $tbp = new \TelegramBotPlatform\TelegramBotPlatform();
 
@@ -143,10 +143,7 @@ $configManager->setConfig(array(
 ));
 $configManager->setRequest($request);
 
-$updateHandler = new \Acme\Handlers\MyUpdateHandler();
-
 $tbp->setConfigManager($configManager);
-$tbp->setUpdateHandler($updateHandler);
 
 $tbp->run();
 ```
