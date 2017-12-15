@@ -17,6 +17,7 @@ use TelegramBotAPI\Exception\TelegramBotAPIException;
 use TelegramBotPlatform\Api\TelegramBotCommandInterface;
 use TelegramBotPlatform\Api\TelegramConfigManagerInterface;
 use TelegramBotPlatform\Api\TelegramUpdateHandlerInterface;
+use TelegramBotAPI\Exception\TelegramBotAPIRuntimeException;
 use TelegramBotPlatform\Exception\TelegramBotPlatformException;
 use TelegramBotPlatform\Exception\TelegramBotPlatformNotFoundException;
 
@@ -45,6 +46,29 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
         if ($command instanceof TelegramBotCommandInterface) return;
 
         throw new TelegramBotPlatformException('This ' . get_class($command) . ' not a command of Telegram Bot.');
+    }
+
+    /**
+     * @param $text
+     * @return string
+     * @throws TelegramBotAPIException
+     * @throws TelegramBotAPIRuntimeException
+     */
+    private function identifyCommand($text) {
+
+        $cmdWithoutSlash = substr($text, 1);
+        $cmdOptArg = explode(' ', $cmdWithoutSlash);
+        $cmd = $cmdOptArg[0];
+
+        if (false === strpos($cmd, '@')) return $cmd;
+
+        $cmdBot = explode('@', $cmd);
+
+        $bot = $this->getConfigManager()->getTelegramBotAPI()->getMe();
+
+        if ($cmdBot[1] !== $bot->getUsername()) return null;
+
+        return $cmdBot[0];
     }
 
 
@@ -199,9 +223,9 @@ class UpdateHandler implements TelegramUpdateHandlerInterface {
 
             if (self::BOT_COMMAND !== $entity->getType()) continue;
 
-            $cmdWithoutSlash = substr($message->getText(), 1);
-            $cmd = explode(' ', $cmdWithoutSlash);
-            $cmd = $cmd[0];
+            $cmd = $this->identifyCommand($message->getText());
+
+            if (null === $cmd) return false;
 
             $commands = $this->getConfigManager()->getCommands();
 
