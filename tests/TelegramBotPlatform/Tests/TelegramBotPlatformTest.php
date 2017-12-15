@@ -80,10 +80,10 @@ class TelegramBotPlatformTest extends TestCase {
             'token'    => '479218867:AAGjGTwl0F-prMPIC6-AkNuLD1Bb2tRsYbc',
             'storage'  => $adapter,
             'payload'  => null,
-            'commands' => array(
+            'mappings' => array(
                 'default'      => DefaultCmdTestStub::class,
                 'inline_query' => InlineQueryCmdTestStub::class,
-                'mappings'     => array(
+                'commands'     => array(
                     'test' => TestCmdTestStub::class
                 )
             )

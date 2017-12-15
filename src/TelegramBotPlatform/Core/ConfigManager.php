@@ -112,7 +112,7 @@ class ConfigManager implements TelegramConfigManagerInterface {
      */
     private function initCommands(array $config) {
 
-        if (true === empty($config['commands'])) {
+        if (true === empty($config['mappings'])) {
 
             $this->defaultCommand = null;
             $this->inlineQueryCommand = null;
@@ -121,10 +121,10 @@ class ConfigManager implements TelegramConfigManagerInterface {
             return;
         }
 
-        $this->initDefaultCommand($config['commands']);
-        $this->initInlineQueryCommand($config['commands']);
+        $this->initDefaultCommand($config['mappings']);
+        $this->initInlineQueryCommand($config['mappings']);
 
-        $this->commands = (true === empty($config['commands']['mappings'])) ? array() : $config['commands']['mappings'];
+        $this->commands = (true === empty($config['mappings']['commands'])) ? array() : $config['mappings']['commands'];
     }
 
     /**
