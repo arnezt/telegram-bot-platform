@@ -101,7 +101,7 @@ class ConfigManagerTest extends TestCase {
 
         $config = TelegramBotPlatformTest::getConfig();
 
-        unset($config['mappings']['default']);
+        unset($config['commands']['default']);
 
         $cm = new ConfigManager($config, $request);
 
@@ -134,7 +134,7 @@ class ConfigManagerTest extends TestCase {
 
         $config = TelegramBotPlatformTest::getConfig();
 
-        unset($config['mappings']);
+        unset($config['commands']);
 
         $cm = new ConfigManager($config, $request);
 
