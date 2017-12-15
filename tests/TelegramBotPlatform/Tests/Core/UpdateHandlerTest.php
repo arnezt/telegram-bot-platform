@@ -12,6 +12,7 @@ namespace TelegramBotPlatform\Tests\Core;
 
 
 use PHPUnit\Framework\TestCase;
+use TelegramBotPlatform\Core\ConfigManager;
 use TelegramBotPlatform\Core\UpdateHandler;
 use TelegramBotPlatform\TelegramBotPlatform;
 use TelegramBotPlatform\Tests\TelegramBotPlatformTest;
@@ -21,6 +22,26 @@ use TelegramBotPlatform\Tests\TelegramBotPlatformTest;
  * @package TelegramBotPlatform\Tests\Core
  */
 class UpdateHandlerTest extends TestCase {
+
+    public function testFoo() {
+
+        $request = TelegramBotPlatformTest::getRequest(747719235, 59673324, '/cmd', 'bot_command');
+
+        $configManager = new ConfigManager(TelegramBotPlatformTest::getConfig(), $request);
+
+        $updateHandlerReflectionClass = new \ReflectionClass(UpdateHandler::class);
+        $method = $updateHandlerReflectionClass->getMethod('identifyCommand');
+        $method->setAccessible(true);
+
+        $updateHandler = new UpdateHandler($configManager);
+        $d = $method->invokeArgs($updateHandler, array('/start London, UK'));
+        $s = $method->invokeArgs($updateHandler, array('/start@ApocalypseBot London, UK'));
+        $f = $method->invokeArgs($updateHandler, array('/start@TBAPHPBot London, UK'));
+
+        $this->assertEquals('start', $d);
+        $this->assertEquals(null, $s);
+        $this->assertEquals('start', $f);
+    }
 
     /**
      * @throws \TelegramBotPlatform\Exception\TelegramBotPlatformException
