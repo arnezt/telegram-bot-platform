@@ -55,7 +55,7 @@ class TelegramBotPlatform {
 
             $requiredParameters = $reflection->getNumberOfRequiredParameters();
 
-            if (2 < $requiredParameters) return false;
+            if (2 > $requiredParameters) return false;
 
             $parameters = $reflection->getParameters();
 
