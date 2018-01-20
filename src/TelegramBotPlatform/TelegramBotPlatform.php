@@ -11,6 +11,9 @@
 namespace TelegramBotPlatform;
 
 
+use ReflectionMethod;
+use ReflectionException;
+use TelegramBotAPI\Types\Update;
 use TelegramBotAPI\TelegramBotAPI;
 use TelegramBotPlatform\Core\ConfigManager;
 use TelegramBotPlatform\Core\UpdateHandler;
@@ -38,6 +41,34 @@ class TelegramBotPlatform {
      * @var TelegramUpdateHandlerInterface $uh
      */
     private $uh;
+
+
+    /**
+     * @param array $context
+     * @return bool
+     */
+    private function checkMethodExistsCmd($context) {
+
+        try {
+
+            $reflection = new ReflectionMethod($context['class'], $context['method']);
+
+            $requiredParameters = $reflection->getNumberOfRequiredParameters();
+
+            if (2 < $requiredParameters) return false;
+
+            $parameters = $reflection->getParameters();
+
+            if (self::class !== $parameters[0]->getClass()->getName()) return false;
+
+            if (Update::class !== $parameters[1]->getClass()->getName()) return false;
+
+            return true;
+
+        } catch (ReflectionException $exception) {
+            return false;
+        }
+    }
 
 
     /**
@@ -146,6 +177,12 @@ class TelegramBotPlatform {
                 throw new TelegramBotPlatformException('context.method is a required field.');
 
             default:
+
+                $exists = $this->checkMethodExistsCmd($session['context']);
+
+                if (false === $exists) {
+                    throw new TelegramBotPlatformException('In the context.class there is no context.method or he invalid.');
+                }
 
                 $key = self::TELEGRAM_SESSION_PREFIX . $session['id'];
 
