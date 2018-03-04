@@ -81,6 +81,7 @@ class TelegramBotPlatform {
     /**
      * @param array $config
      * @param string $request
+     * @throws TelegramBotAPIException
      */
     private function initConfigManager(array $config, $request) {
         $this->setConfigManager(new ConfigManager($config, $request));
@@ -206,6 +207,7 @@ class TelegramBotPlatform {
      * @api
      * @param array $config
      * @param string $request
+     * @throws TelegramBotAPIException
      */
     public function __construct(array $config = array(), $request = '') {
 
