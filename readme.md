@@ -18,7 +18,7 @@ You can follow [this](https://github.com/jungle-bay/telegram-bot-platform/blob/m
 The recommended way to install is through [Composer](https://getcomposer.org/doc/00-intro.md#introduction):
 
 ```bash
-composer require jungle-bay/telegram-bot-shell
+composer require jungle-bay/telegram-bot-platform
 ```
 
 ### The simplest example of use
