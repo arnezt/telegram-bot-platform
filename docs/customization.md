@@ -33,7 +33,7 @@ Example use custom `MyUpdateHandler`:
 ```php
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 $request = file_get_contents('php://input'); // Request body. (JSON-serialized Update object)
 // ...
@@ -130,7 +130,7 @@ Example use custom `MyConfigManager`:
 ```php
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 $request = file_get_contents('php://input'); // Request body. (JSON-serialized Update object)
 // ...
