@@ -35,6 +35,7 @@ Example use custom `MyUpdateHandler`:
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+$request = file_get_contents('php://input'); // Request body. (JSON-serialized Update object)
 // ...
 
 $tbp = new \TelegramBotPlatform\TelegramBotPlatform(array(
@@ -131,6 +132,7 @@ Example use custom `MyConfigManager`:
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+$request = file_get_contents('php://input'); // Request body. (JSON-serialized Update object)
 // ...
 
 $tbp = new \TelegramBotPlatform\TelegramBotPlatform();
