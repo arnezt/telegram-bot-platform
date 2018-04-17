@@ -202,7 +202,7 @@ Example use:
 ```php
 <?php
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . DIRECTORY_SEPARATOR . implode(DIRECTORY_SEPARATOR, array('vendor', 'autoload.php'));
 
 $pdo = new \PDO("mysql:host={$host};port={$port};dbname={$dbname}", $user, $password);
 
